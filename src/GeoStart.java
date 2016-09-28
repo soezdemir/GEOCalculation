@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.lang.String;
 /**
  * Created by soezdemir on 28.09.2016.
  */
@@ -39,6 +40,7 @@ public class GeoStart {
         System.out.println("\tDistance:\t" +  GeoCalculation.getDistanceBetween(c, d) + " km\n");
 
 
+        GeoCalculation.searchPoint();
 
         //GeoCalculation.distanceBetweenCities();
         //GeoCalculation.searchParkingSlot();

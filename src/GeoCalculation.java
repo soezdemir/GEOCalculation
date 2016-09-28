@@ -150,13 +150,13 @@ public class GeoCalculation {
 
         System.out.println("===================================================================");
         System.out.println(" searchPoint()");
-        System.out.println("\tLAT     : " + latitude + " \t\t\tLON: " + longitude);
+        System.out.println("\tLAT     : " + latitude + "\t|\tLON: " + longitude);
         System.out.println("\tBearing : " + bearing);
         System.out.println("\tDistance: " + (distance * 1000) + " m");
         System.out.println("___________________________________________________________________");
-        System.out.println("\tLAT(x): " + x + "  |  LON(y): " + y + "\n\tFinal Bearing: " + finalBearing);
+        System.out.println("\tLAT(x): " + x + "\t|\tLON(y): " + y + "\n\tFinal Bearing: " + finalBearing);
 
-    }   //49.245943, 6.936975
+    }
     //ToDo =============================================================================================================
 
 

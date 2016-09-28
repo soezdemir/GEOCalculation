@@ -25,7 +25,7 @@ public class WGS84Point {
         this.counter ++;
     }
 
-    public static int getPointID(){// siehe Nummerierungsobjekte (Singleton)
+    public static int getPointID(){// siehe Nummerierungsobjekte (Singleton) http://www.java-forum.org/thema/objekte-durchnummerieren.38878/
         return id++;
 
     }
