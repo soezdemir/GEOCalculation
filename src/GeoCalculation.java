@@ -117,6 +117,11 @@ public class GeoCalculation {
         double bearing      = 88.31069344488208;    //Peilungswinkel
         double distance     = 0.07922964485129694;  //Distanz
 
+        bearing = Math.toRadians(bearing);
+        latitude = Math.toRadians(latitude);
+        longitude = Math.toRadians(longitude);
+
+
         double x =      Math.asin(Math.sin(latitude) * Math.cos(distance/EARTH_RAD)
                         + Math.cos(latitude) * Math.sin(distance/EARTH_RAD) * Math.cos(bearing));
         double y =      longitude + Math.atan2(Math.sin(bearing) * Math.sin(distance/EARTH_RAD) * Math.cos(latitude),
@@ -126,11 +131,18 @@ public class GeoCalculation {
 
         double finalBearing = (bearing + 180) % 360;
 
+        latitude = Math.toDegrees(latitude);
+        longitude = Math.toDegrees(longitude);
+        bearing = Math.toDegrees(bearing);
+        //distance = Math.toDegrees(distance);
+        x = Math.toDegrees(x);
+        y = Math.toDegrees(y);
+
         System.out.println("===================================================================");
         System.out.println(" searchPoint()");
         System.out.println("\tLAT     : " + latitude + " \t\t\tLON: " + longitude);
         System.out.println("\tBearing : " + bearing);
-        System.out.println("\tDistance: " + distance);
+        System.out.println("\tDistance: " + (distance * 1000) + " m");
         System.out.println("___________________________________________________________________");
         System.out.println("\tLAT(x): " + x + "  |  LON(y): " + y + "\n\tFinal Bearing: " + finalBearing);
     }   //49.245943, 6.936975
