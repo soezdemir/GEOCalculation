@@ -18,19 +18,10 @@ public class GeoCalculation {
 
 
     /**
-     * Standartconstructor for GeoCalculation
+     * Standard constructor for GeoCalculation
      */
     public GeoCalculation(){}
 
-
-
-    public void init(){
-
-        getDistanceBetween(pointA, pointB); //Distanzberechnung zwischen zwei Geokoordinaten
-        //searchParkingSlot(); // Berechnung der Entfernung und dem Winkel zwischen zwei Punkten
-        //searchPoint(); //Funktionsaufruf - Berechnung eines zweiten Koordinatenpunktes
-
-    }
 
     public static double getDistanceBetween(WGS84Point pointA, WGS84Point pointB)
     {

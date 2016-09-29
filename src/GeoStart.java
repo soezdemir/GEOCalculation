@@ -25,22 +25,34 @@ public class GeoStart {
         //GeoCalculation.init();
         System.out.println(a);
         System.out.println(b);
-        System.out.println("\tDistance:\t" +  GeoCalculation.getDistanceBetween(a, b) + " km\n");
+        System.out.println("\tDistance:\t" + GeoCalculation.getDistanceBetween(a, b) + " km\n");
 
-        WGS84Point berlin = new WGS84Point(52.51640, 13.37770);
-        WGS84Point lissab = new WGS84Point(38.69267, -9.177944);
+        WGS84Point berlin = new WGS84Point(52.51640, 13.37770);  //Berlin
+        WGS84Point lissab = new WGS84Point(38.69267, -9.177944); //Lissabon
         System.out.println(berlin);
         System.out.println(lissab);
-        System.out.println("\tDistance:\t" +  GeoCalculation.getDistanceBetween(berlin, lissab) + " km\n");
+        System.out.println("\tDistance:\t" + GeoCalculation.getDistanceBetween(berlin, lissab) + " km\n");
 
         WGS84Point c = new WGS84Point(49.245922, 6.935884);
         WGS84Point d = new WGS84Point(49.245943, 6.936975);
         System.out.println(c);
         System.out.println(d);
-        System.out.println("\tDistance:\t" +  GeoCalculation.getDistanceBetween(c, d) + " km\n");
+        System.out.println("\tDistance:\t" + GeoCalculation.getDistanceBetween(c, d) + " km\n");
 
+        WGS84Point e = new WGS84Point(49.198811, 6.693405); //Rue de la Bonne Fontaine
+        WGS84Point f = new WGS84Point(49.199084, 6.692552); //Rue de la Bonne Fontaine
+        System.out.println(e);
+        System.out.println(f);
+        System.out.println("\tDistance:\t" + GeoCalculation.getDistanceBetween(e, f) + " km\n");
+
+        WGS84Point frankf = new WGS84Point(50.039258, 8.562203); //Frankfurt Airport
+        WGS84Point istanb = new WGS84Point(40.983693, 28.810560); //Istanbul Atatuerk Airport
+        System.out.println(frankf);
+        System.out.println(istanb);
+        System.out.println("\tDistance:\t" + GeoCalculation.getDistanceBetween(frankf, istanb) + " km\n");
 
         GeoCalculation.searchPoint();
+
 
         //GeoCalculation.distanceBetweenCities();
         //GeoCalculation.searchParkingSlot();
@@ -53,7 +65,7 @@ public class GeoStart {
 
     /**
      * Parameters to testing GeoCalculation
-     * @param WGS84Point ( , ) with latitude and longitude values
+     * @param WGS84Point (49.245078, 6.936198) with latitude and longitude values
      */
     public static void testValuesForDistanceBetween(){
 
