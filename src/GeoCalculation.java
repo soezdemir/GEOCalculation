@@ -7,26 +7,39 @@ public class GeoCalculation {
 
     public static final double EARTH_RAD = 6371.0008;
 
-    //public static final double TEN_MILLION = 10000000.0;
+    public static final double TEN_MILLION = 10000000.0;
 
     /**
      * Standard constructor for GeoCalculation
      */
     public GeoCalculation(){}
 
+
+    public static long degreeToTenthMicroDegree(double degree)
+    {
+        return (long) (degree * TEN_MILLION);
+    }
+
+
+    public static double tenthMicroDegreeToDegree(long tenthMicroDegree)
+    {
+        return (double) (tenthMicroDegree / TEN_MILLION);
+    }
+
     /**
-     *
+     * <br>Method with haversine formula to calculate the</br>
+     * <br>great-circle distance between two WGS84Points</br>
      * @param pointA
      * @param pointB
-     * @return
+     * @return distance between Points in km
      */
     public static double getDistanceBetween(WGS84Point pointA, WGS84Point pointB)
     {
         double largeArc;
-        double radLatitude1 = Math.toRadians(pointA.getLatitude());
-        double radLongitude1 = Math.toRadians(pointA.getLongitude());
-        double radLatitude2 = Math.toRadians(pointB.getLatitude());
-        double radLongitude2 = Math.toRadians(pointB.getLongitude());
+        double radLatitude1 = Math.toRadians(pointA.getLatitudeDegree());
+        double radLongitude1 = Math.toRadians(pointA.getLongitudeDegree());
+        double radLatitude2 = Math.toRadians(pointB.getLatitudeDegree());
+        double radLongitude2 = Math.toRadians(pointB.getLongitudeDegree());
 
         largeArc = Math.sin(radLatitude1) * Math.sin(radLatitude2) +
                   Math.cos(radLatitude1) * Math.cos(radLatitude2) *
@@ -36,17 +49,19 @@ public class GeoCalculation {
     }
 
     /**
-     *
+     * <br>Method for the initial bearing which if followed</br>
+     * <br>in a straight line along a great-circle arc from</br>
+     * <br>the start point to the end point</br>
      * @param pointA
      * @param pointB
      * @return
      */
     public static double getBearing(WGS84Point pointA, WGS84Point pointB)
     {
-        double radLat1 = Math.toRadians(pointA.getLatitude());
-        double radLon1 = Math.toRadians(pointA.getLongitude());
-        double radLat2 = Math.toRadians(pointB.getLatitude());
-        double radLon2 = Math.toRadians(pointB.getLongitude());
+        double radLat1 = Math.toRadians(pointA.getLatitudeDegree());
+        double radLon1 = Math.toRadians(pointA.getLongitudeDegree());
+        double radLat2 = Math.toRadians(pointB.getLatitudeDegree());
+        double radLon2 = Math.toRadians(pointB.getLongitudeDegree());
 
         double bearing = Math.atan2(Math.sin(radLon2 - radLon1) * Math.cos(radLat2),
                 (Math.cos(radLat1) * Math.sin(radLat2)) - (Math.sin(radLat1) * Math.cos(radLat2)) *
@@ -55,17 +70,18 @@ public class GeoCalculation {
     }
 
     /**
-     *
-     * @param point
+     * <br>Method with a given start point, initial bearing, and distance,</br>
+     * <br>this will calculate the destination point</br>
+     * @param startPoint
      * @param distance
      * @param angle
      * @return
      */
-    public static WGS84Point searchPoint(WGS84Point point, double distance, double angle)
+    public static WGS84Point searchPoint(WGS84Point startPoint, double distance, double angle)
     {
         double bearing = Math.toRadians(angle);
-        double latitude = Math.toRadians(point.getLatitude());
-        double longitude = Math.toRadians(point.getLongitude());
+        double latitude = Math.toRadians(startPoint.getLatitudeDegree());
+        double longitude = Math.toRadians(startPoint.getLongitudeDegree());
 
         double x = Math.asin(Math.sin(latitude) * Math.cos(distance/EARTH_RAD)
                     + Math.cos(latitude) * Math.sin(distance/EARTH_RAD) * Math.cos(bearing));
@@ -79,7 +95,10 @@ public class GeoCalculation {
         return new WGS84Point(x,y);
     }
 
-    //ToDo schnittpunkt zweier geraden um Rechteck aufzuspannen
+    //ToDo Schnittpunkt zweier Geraden um Rechteck aufzuspannen
+    //ToDo Mittelpunkt einer Distanz zwischen zwei Punkten
+    //ToDo Objekterstellung mittels den vier Punkten und Mittelpunkt eines Objekts
+    //ToDo Umrechnung der Geographischer Koordinaten(latitude, longitude) ins Sexagesimalsystem
 }
 
 //"Der Wissenschaftler ist ein Mann, der lieber zaehlt als vermutet."

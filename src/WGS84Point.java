@@ -4,8 +4,14 @@
 
 public class WGS84Point {
 
+    /**
+     * <br>Factor zi calculate the tenth of a micro degree</br>
+     */
     public static final double SAE_TO_DEGREE = 10000000.0;
 
+    /**
+     * <br>Earth radius in meters</br>
+     */
     public static final double EARTH_RAD = 6371000.8;
 
     private double latitude;
@@ -25,18 +31,30 @@ public class WGS84Point {
         this.counter ++;
     }
 
+/*
+   public WGS84Point(long latitudeInDegree, long longitudeInDegree)
+   {
+       this(GeoCalculation.degreeToTenthMicroDegree(latitudeInDegree),
+       GeoCalculation.degreeToTenthMicroDegree(longitudeInDegree));
+   }
+*/
+
+
     public static int getPointID(){// siehe Nummerierungsobjekte (Singleton) http://www.java-forum.org/thema/objekte-durchnummerieren.38878/
         return id++;
 
     }
 
-    public double getLatitude(){
+    public double getLatitudeDegree(){
         return this.latitude;
     }
 
-    public double getLongitude(){
+    public double getLongitudeDegree(){
         return this.longitude;
     }
+
+
+
 
     public String toString(){
         String result = "Point [" + WGS84Point.getPointID() + "] => LAT: " + this.latitude + "\t| LON: " + this.longitude;
