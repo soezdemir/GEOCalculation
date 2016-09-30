@@ -5,7 +5,9 @@
  */
 public class GeoCalculation {
 
-    public static final double EARTH_RAD = 6371.0008;
+    private static final String EX_COORD_NULL = "<-> Could not calculate distance. At least one point was NULL! <->";
+
+    public static final double EARTH_RAD = 6371.0008; //6378.137000km for WGS84 ???
 
     public static final double TEN_MILLION = 10000000.0;
 
@@ -35,6 +37,10 @@ public class GeoCalculation {
      */
     public static double getDistanceBetween(WGS84Point pointA, WGS84Point pointB)
     {
+        if(null == pointA || null == pointB)
+        {
+            throw new IllegalArgumentException(EX_COORD_NULL);
+        }
         double largeArc;
         double radLatitude1 = Math.toRadians(pointA.getLatitudeDegree());
         double radLongitude1 = Math.toRadians(pointA.getLongitudeDegree());
@@ -48,7 +54,12 @@ public class GeoCalculation {
         return EARTH_RAD * Math.acos(largeArc);
     }
 
-
+    /**
+     * <br>Method for the half-way point along a great circle path between the two points</br>
+     * @param pointA
+     * @param pointB
+     * @return distance to the half-way point between pointA and pointB
+     */
     public static WGS84Point getMiddlePoint(WGS84Point pointA, WGS84Point pointB)
     {
         double bX, bY;
@@ -62,15 +73,14 @@ public class GeoCalculation {
         bX = Math.cos(radLatitude2) * (Math.cos(deltaLongitude));
         bY = Math.cos(radLatitude2) * (Math.sin(deltaLongitude));
 
-        double latitude =   Math.atan2((Math.sin(radLatitude1)) + (Math.sin(radLatitude2)),
-                            (Math.sqrt(Math.pow(Math.cos(radLatitude1)+bX, 2) + (Math.pow(bY,2)))));
+        double latitude;
+        latitude = Math.atan2((Math.sin(radLatitude1)) + (Math.sin(radLatitude2)),
+                Math.sqrt(Math.pow(Math.cos(radLatitude1) + bX, 2) + Math.pow(bY, 2)));
 
-        double longitude =  Math.toRadians(radLongitude1) + Math.atan2(bY, Math.cos(radLatitude1) + bX);
+        double longitude;
+        longitude = Math.toRadians(radLongitude1) + Math.atan2(bY, Math.cos(radLatitude1) + bX);
 
-        latitude = Math.toDegrees(latitude);
-        longitude = Math.toDegrees(longitude);
-
-        return new WGS84Point(latitude, longitude);
+        return new WGS84Point(Math.toDegrees(latitude), Math.toDegrees(longitude));
     }
 
 

@@ -16,30 +16,34 @@ public class GeoStart {
 
     public static void start()
     {
-        WGS84Point a = new WGS84Point(49.9917, 8.41321);  //Ruesselsheim - HBF
+        WGS84Point a = new WGS84Point(49.9917, 8.41321);  //Ruesselsheim - HBF (Bahnhofsplatz)
         WGS84Point b = new WGS84Point(50.0049, 8.42182);  //Ruesselsheim - Opelbruecke (Mainzer Str.)
         System.out.println(a);
         System.out.println(b);
         System.out.println("\tDistance:\t\t\t\t\t" + GeoCalculation.getDistanceBetween(a, b) + " km");
         System.out.println("\tHalf-way Point:\t\t\t\t" + GeoCalculation.getMiddlePoint(a,b));
         System.out.println("\tDistance to MiddlePoint:\t"
-                + GeoCalculation.getDistanceBetween(a, GeoCalculation.getMiddlePoint(a,b)) + " km\n");
-        System.out.println("\tBearing:\t" + GeoCalculation.getBearing(a, b) + "°");
-        System.out.println("\tBearing:\t"
+                + GeoCalculation.getDistanceBetween(a, GeoCalculation.getMiddlePoint(a,b)) + " km");
+        System.out.println("\tBearing:\t\t\t\t\t" + GeoCalculation.getBearing(a, b) + "°");
+        System.out.println("\tBearing:\t\t\t\t\t"
                             + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getBearing(a, b))
                             + " [tenth micro degree]");
-
-
+        System.out.println("=======================================================================================\n");
 
         WGS84Point berlin = new WGS84Point(52.51640, 13.37770);  //Berlin
         WGS84Point lissab = new WGS84Point(38.69267, -9.177944); //Lissabon
         System.out.println(berlin);
         System.out.println(lissab);
+        System.out.println("\tDistance:\t\t\t\t\t" + GeoCalculation.getDistanceBetween(berlin, lissab) + " km");
+        System.out.println("\tHalf-way Point:\t\t\t\t" + GeoCalculation.getMiddlePoint(berlin, lissab));
+        System.out.println("\tDistance to MiddlePoint:\t"
+                + GeoCalculation.getDistanceBetween(berlin, GeoCalculation.getMiddlePoint(berlin,lissab)) + " km");
         System.out.println("\tDistance:\t" + GeoCalculation.getDistanceBetween(berlin, lissab) + " km");
         System.out.println("\tBearing:\t" + GeoCalculation.getBearing(berlin, lissab) + "°");
         System.out.println("\tBearing:\t"
                             + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getBearing(berlin, lissab))
                             + " [tenth micro degree]\n");
+        System.out.println("=======================================================================================\n");
 
         WGS84Point c = new WGS84Point(49.245922, 6.935884);
         WGS84Point d = new WGS84Point(49.245943, 6.936975);
@@ -89,7 +93,6 @@ public class GeoStart {
         // WGS84Point b = scanPoint(" Point B [latitude] ==> ", " Point B [longitude] ==> ");
     }
 
-
     /**
      * Parameters to testing GeoCalculations
      * (49.245078, 6.936198) with latitude and longitude values
@@ -102,7 +105,6 @@ public class GeoStart {
         testPoint.add(new WGS84Point(49.245922, 6.935884)); //Altenkesseler Str. [A]
         testPoint.add(new WGS84Point(49.245943, 6.936975)); //Altenkesseler Str. [B]
     }
-
 
     /**
      * <br> Scanner method for a WGS84-Point </br>
@@ -121,5 +123,4 @@ public class GeoStart {
 
         return new WGS84Point(x, y);
     }
-
 }//ENDE
