@@ -48,6 +48,32 @@ public class GeoCalculation {
         return EARTH_RAD * Math.acos(largeArc);
     }
 
+
+    public static WGS84Point getMiddlePoint(WGS84Point pointA, WGS84Point pointB)
+    {
+        double bX, bY;
+        double radLatitude1 = Math.toRadians(pointA.getLatitudeDegree());
+        double radLatitude2 = Math.toRadians(pointB.getLatitudeDegree());
+        double radLongitude1 = pointA.getLongitudeDegree();
+        double radLongitude2 = pointB.getLongitudeDegree();
+
+        double deltaLongitude = Math.toRadians(radLongitude2 - radLongitude1);
+
+        bX = Math.cos(radLatitude2) * (Math.cos(deltaLongitude));
+        bY = Math.cos(radLatitude2) * (Math.sin(deltaLongitude));
+
+        double latitude =   Math.atan2((Math.sin(radLatitude1)) + (Math.sin(radLatitude2)),
+                            (Math.sqrt(Math.pow(Math.cos(radLatitude1)+bX, 2) + (Math.pow(bY,2)))));
+
+        double longitude =  Math.toRadians(radLongitude1) + Math.atan2(bY, Math.cos(radLatitude1) + bX);
+
+        latitude = Math.toDegrees(latitude);
+        longitude = Math.toDegrees(longitude);
+
+        return new WGS84Point(latitude, longitude);
+    }
+
+
     /**
      * <br>Method for the initial bearing which if followed</br>
      * <br>in a straight line along a great-circle arc from</br>
@@ -95,6 +121,7 @@ public class GeoCalculation {
         return new WGS84Point(x,y);
     }
 
+
     //ToDo Schnittpunkt zweier Geraden um Rechteck aufzuspannen
     //ToDo Mittelpunkt einer Distanz zwischen zwei Punkten
     //ToDo Objekterstellung mittels den vier Punkten und Mittelpunkt eines Objekts
@@ -105,3 +132,5 @@ public class GeoCalculation {
 
 //http://www.movable-type.co.uk/scripts/latlong.html
 //http://www.purplemath.com/modules/radians.htm
+
+//http://williams.best.vwh.net/avform.htm

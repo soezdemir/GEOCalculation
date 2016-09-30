@@ -20,11 +20,16 @@ public class GeoStart {
         WGS84Point b = new WGS84Point(50.0049, 8.42182);  //Ruesselsheim - Opelbruecke (Mainzer Str.)
         System.out.println(a);
         System.out.println(b);
-        System.out.println("\tDistance:\t" + GeoCalculation.getDistanceBetween(a, b) + " km");
+        System.out.println("\tDistance:\t\t\t\t\t" + GeoCalculation.getDistanceBetween(a, b) + " km");
+        System.out.println("\tHalf-way Point:\t\t\t\t" + GeoCalculation.getMiddlePoint(a,b));
+        System.out.println("\tDistance to MiddlePoint:\t"
+                + GeoCalculation.getDistanceBetween(a, GeoCalculation.getMiddlePoint(a,b)) + " km\n");
         System.out.println("\tBearing:\t" + GeoCalculation.getBearing(a, b) + "°");
         System.out.println("\tBearing:\t"
                             + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getBearing(a, b))
-                            + " [tenth micro degree]\n");
+                            + " [tenth micro degree]");
+
+
 
         WGS84Point berlin = new WGS84Point(52.51640, 13.37770);  //Berlin
         WGS84Point lissab = new WGS84Point(38.69267, -9.177944); //Lissabon
