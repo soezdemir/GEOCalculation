@@ -142,6 +142,86 @@ public class GeoCalculation {
         return new WGS84Point(x,y);
     }
 
+    /**
+     * Returns the point of intersection of two paths defined by point and bearing
+     * @param pointA First Point e.g. (50.00489 / 8.42182)
+     * @param angleA Bearing for path of the 1st Point
+     * @param pointB Second Point e.g. (49.99446 / 8.40294)
+     * @param angleB Bearing for path of the 2nd Point
+     * @return
+     */
+    public static WGS84Point intersectionPoint(WGS84Point pointA, double angleA, WGS84Point pointB, double angleB)
+    {
+        double bearingA = Math.toRadians(angleA);
+        System.out.println("\n*** bearingA = " + bearingA + " ");
+        System.out.println("*** angleA = " + angleA + " ==> " +(angleA + 360) + " \n");
+        double latitudeA = Math.toRadians(pointA.getLatitudeDegree());
+        double longitudeA = Math.toRadians(pointA.getLongitudeDegree());
+        double bearingB = Math.toRadians(angleB);
+        System.out.println("*** bearingB = " + bearingB + " ");
+        System.out.println("*** angleB = " + angleB + " ==> " +(angleB + 360) + " \n");
+        double latitudeB = Math.toRadians(pointB.getLatitudeDegree());
+        double longitudeB = Math.toRadians(pointB.getLongitudeDegree());
+
+        double deltaLatitude = pointB.getLatitudeDegree() - pointA.getLatitudeDegree();
+        double deltaLongitude = pointB.getLongitudeDegree() - pointA.getLongitudeDegree();
+
+        double azimuth12, azimuth21;
+
+        double distanceA = 2 * Math.asin(Math.sqrt((Math.sin(deltaLatitude/2) * Math.sin(deltaLatitude/2))
+                                + Math.cos(latitudeA) * Math.cos(latitudeB) * (Math.sin(deltaLongitude/2)
+                                * Math.sin(deltaLongitude/2))));
+        System.out.print("*** distanceA = " + distanceA + " \n");
+
+        double azimuthA = Math.acos((Math.sin(latitudeB) - Math.sin(latitudeA) * Math.cos(distanceA))
+                                    / Math.sin(distanceA) * Math.cos(latitudeA));
+        System.out.print("*** azimuthA = " + azimuthA + " \n");
+
+        double azimuthB = Math.acos((Math.sin(latitudeA) - Math.sin(latitudeB) * Math.cos(distanceA))
+                                    / Math.sin(distanceA) * Math.cos(latitudeB));
+        System.out.print("*** azimuthB = " + azimuthB + " \n");
+
+        if (Math.sin(pointB.getLongitudeDegree() - pointA.getLongitudeDegree()) > 0)
+        {
+            azimuth12 = azimuthA;
+            azimuth21 = 2 * Math.PI - azimuthA;
+        }
+        else
+        {
+            azimuth12 = 2 * Math.PI - azimuthB;
+            azimuth21 = azimuthB;
+        }
+
+        double alpha1 = (bearingA - azimuth12 + Math.PI) % (2 * Math.PI) - Math.PI;
+        System.out.print("*** alpha1 = " + alpha1 + " \n");
+
+        double alpha2 = (azimuth21 - bearingB + Math.PI) % (2 * Math.PI) - Math.PI;
+        System.out.print("*** alpha2 = " + alpha2 + " \n");
+
+        double alpha3 = Math.acos(((-1)*Math.cos(alpha1) * Math.cos(alpha2))
+                        + Math.sin(alpha1) * Math.sin(alpha2) * Math.cos(distanceA));
+        System.out.print("*** alpha3 = " + alpha3 + " \n");
+
+        double distanceB = Math.atan2(Math.sin(distanceA) * Math.sin(alpha1) * Math.sin(alpha2),
+                            Math.cos(alpha2) + Math.cos(alpha1) * Math.cos(alpha3));
+        System.out.print("*** distanceB = " + distanceB + " \n");
+
+        double latitude = Math.asin(Math.sin(latitudeA) * Math.cos(distanceB)
+                            + Math.cos(latitudeA) * Math.sin(distanceB) * Math.cos(bearingA));
+
+        double deltaLongitude13 = Math.atan2(Math.sin(bearingA)*Math.sin(distanceB)*Math.cos(longitudeA),
+                Math.cos(distanceB) - Math.sin(latitudeA) * Math.sin(latitude));
+
+        double longitude = longitudeA + deltaLongitude13; // + Math.PI) % 2 * Math.PI - Math.PI;
+
+        System.out.print("*** deltaLongitude13 = " + deltaLongitude13 + " ***\n");
+        System.out.println("*** latitude " + latitude + " - longitude " + longitude + " ***\n");
+
+        latitude = Math.toDegrees(latitude);
+        longitude = Math.toDegrees(longitude);
+
+        return new WGS84Point(latitude, (longitude+540)%360-180);
+    }
 
     //ToDo Schnittpunkt zweier Geraden um Rechteck aufzuspannen
     //ToDo Mittelpunkt einer Distanz zwischen zwei Punkten

@@ -18,8 +18,8 @@ public class GeoStart {
     {
         WGS84Point a = new WGS84Point(49.9917, 8.41321);  //Ruesselsheim - HBF (Bahnhofsplatz)
         WGS84Point b = new WGS84Point(50.0049, 8.42182);  //Ruesselsheim - Opelbruecke (Mainzer Str.)
-        System.out.println(a);
-        System.out.println(b);
+        System.out.println("Point A: " + a);
+        System.out.println("Point B: " + b);
         System.out.println("\tDistance:\t\t\t\t\t" + GeoCalculation.getDistanceBetween(a,b) + " km");
         System.out.println("\tHalf-way Point:\t\t\t\t" + GeoCalculation.getMiddlePoint(a,b));
         System.out.println("\tDistance to MiddlePoint:\t"
@@ -29,6 +29,25 @@ public class GeoStart {
                             + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getInitialBearing(a, b))
                             + " [tenth micro degree]");
         System.out.println("\tFinal Bearing:\t\t\t\t" + GeoCalculation.getFinalBearing(a,b) + "°");
+        System.out.println("\tsearchPoints:\t\t\t\t\n\tPoint C: "
+                            + GeoCalculation.searchPoint(a, GeoCalculation.getDistanceBetween(a,b),
+                                GeoCalculation.getFinalBearing(a,b)));
+        WGS84Point D = GeoCalculation.searchPoint(a, (GeoCalculation.getDistanceBetween(a,b)/2),
+                GeoCalculation.getInitialBearing(a,b)-90);
+        System.out.println("\tPoint D: " + D );
+        System.out.println("\tPoint E: "
+                            + GeoCalculation.searchPoint(a, (GeoCalculation.getDistanceBetween(a,b)/2),
+                                GeoCalculation.getInitialBearing(a,b)+90));
+        System.out.println("\tPoint B: " +
+                            GeoCalculation.searchPoint(a, GeoCalculation.getDistanceBetween(a, b),
+                                            GeoCalculation.getInitialBearing(a,b)));
+        System.out.println("\tRectangular GeoArea: " + ((GeoCalculation.getDistanceBetween(a,b)*2) *
+                                        (GeoCalculation.getDistanceBetween(a, GeoCalculation.getMiddlePoint(a,b)) * 2) * 1000) + " m²" );
+        System.out.println("\tIntersection Point: "
+                + GeoCalculation.intersectionPoint(b, GeoCalculation.getInitialBearing(a,b) - 90,
+                D, GeoCalculation.getInitialBearing(a,b)));
+        //System.out.println("\tIntersection Point: "
+        //                    + GeoCalculation.intersectionPoint(b, 288, D, 22));
         System.out.println("=======================================================================================\n");
 
         WGS84Point berlin = new WGS84Point(52.51640, 13.37770);  //Berlin
