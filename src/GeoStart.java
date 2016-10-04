@@ -20,14 +20,15 @@ public class GeoStart {
         WGS84Point b = new WGS84Point(50.0049, 8.42182);  //Ruesselsheim - Opelbruecke (Mainzer Str.)
         System.out.println(a);
         System.out.println(b);
-        System.out.println("\tDistance:\t\t\t\t\t" + GeoCalculation.getDistanceBetween(a, b) + " km");
+        System.out.println("\tDistance:\t\t\t\t\t" + GeoCalculation.getDistanceBetween(a,b) + " km");
         System.out.println("\tHalf-way Point:\t\t\t\t" + GeoCalculation.getMiddlePoint(a,b));
         System.out.println("\tDistance to MiddlePoint:\t"
                 + GeoCalculation.getDistanceBetween(a, GeoCalculation.getMiddlePoint(a,b)) + " km");
-        System.out.println("\tBearing:\t\t\t\t\t" + GeoCalculation.getBearing(a, b) + "°");
+        System.out.println("\tBearing:\t\t\t\t\t" + GeoCalculation.getInitialBearing(a, b) + "°");
         System.out.println("\tBearing:\t\t\t\t\t"
-                            + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getBearing(a, b))
+                            + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getInitialBearing(a, b))
                             + " [tenth micro degree]");
+        System.out.println("\tFinal Bearing:\t\t\t\t" + GeoCalculation.getFinalBearing(a,b) + "°");
         System.out.println("=======================================================================================\n");
 
         WGS84Point berlin = new WGS84Point(52.51640, 13.37770);  //Berlin
@@ -39,9 +40,9 @@ public class GeoStart {
         System.out.println("\tDistance to MiddlePoint:\t"
                 + GeoCalculation.getDistanceBetween(berlin, GeoCalculation.getMiddlePoint(berlin,lissab)) + " km");
         System.out.println("\tDistance:\t" + GeoCalculation.getDistanceBetween(berlin, lissab) + " km");
-        System.out.println("\tBearing:\t" + GeoCalculation.getBearing(berlin, lissab) + "°");
+        System.out.println("\tBearing:\t" + GeoCalculation.getInitialBearing(berlin, lissab) + "°");
         System.out.println("\tBearing:\t"
-                            + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getBearing(berlin, lissab))
+                            + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getInitialBearing(berlin, lissab))
                             + " [tenth micro degree]\n");
         System.out.println("=======================================================================================\n");
 
@@ -50,9 +51,9 @@ public class GeoStart {
         System.out.println(c);
         System.out.println(d);
         System.out.println("\tDistance:\t" + GeoCalculation.getDistanceBetween(c, d) + " km");
-        System.out.println("\tBearing:\t" + GeoCalculation.getBearing(c, d) + "°");
+        System.out.println("\tBearing:\t" + GeoCalculation.getInitialBearing(c, d) + "°");
         System.out.println("\tBearing:\t"
-                            + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getBearing(c, d))
+                            + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getInitialBearing(c, d))
                             + " [tenth micro degree]\n");
 
         WGS84Point e = new WGS84Point(49.198811, 6.693405); //Rue de la Bonne Fontaine
@@ -60,9 +61,9 @@ public class GeoStart {
         System.out.println(e);
         System.out.println(f);
         System.out.println("\tDistance:\t" + GeoCalculation.getDistanceBetween(e, f) + " km");
-        System.out.println("\tBearing:\t" + GeoCalculation.getBearing(e, f) + "°");
+        System.out.println("\tBearing:\t" + GeoCalculation.getInitialBearing(e, f) + "°");
         System.out.println("\tBearing:\t"
-                            + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getBearing(e, f))
+                            + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getInitialBearing(e, f))
                             + " [tenth micro degree]\n");
 
         WGS84Point frankf = new WGS84Point(50.039258, 8.562203); //Frankfurt Airport
@@ -70,9 +71,9 @@ public class GeoStart {
         System.out.println(frankf);
         System.out.println(istanb);
         System.out.println("\tDistance:\t" + GeoCalculation.getDistanceBetween(frankf, istanb) + " km");
-        System.out.println("\tBearing:\t" + GeoCalculation.getBearing(frankf, istanb) + "°");
+        System.out.println("\tBearing:\t" + GeoCalculation.getInitialBearing(frankf, istanb) + "°");
         System.out.println("\tBearing:\t"
-                            + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getBearing(frankf, istanb))
+                            + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getInitialBearing(frankf, istanb))
                             + " [tenth micro degree]\n");
 
         System.out.print("-----------------------------------------------------------------------------------------\n");

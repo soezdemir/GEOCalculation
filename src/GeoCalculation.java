@@ -83,7 +83,6 @@ public class GeoCalculation {
         return new WGS84Point(Math.toDegrees(latitude), Math.toDegrees(longitude));
     }
 
-
     /**
      * <br>Method for the initial bearing which if followed</br>
      * <br>in a straight line along a great-circle arc from</br>
@@ -92,7 +91,7 @@ public class GeoCalculation {
      * @param pointB
      * @return
      */
-    public static double getBearing(WGS84Point pointA, WGS84Point pointB)
+    public static double getInitialBearing(WGS84Point pointA, WGS84Point pointB)
     {
         double radLat1 = Math.toRadians(pointA.getLatitudeDegree());
         double radLon1 = Math.toRadians(pointA.getLongitudeDegree());
@@ -103,6 +102,18 @@ public class GeoCalculation {
                 (Math.cos(radLat1) * Math.sin(radLat2)) - (Math.sin(radLat1) * Math.cos(radLat2)) *
                  Math.cos(radLon2 - radLon1));
         return Math.toDegrees(bearing);
+    }
+
+    /**
+     * <br>Calculates the final bearing which is backward of initial bearing</br>
+     * @param pointA
+     * @param pointB
+     * @return
+     */
+    public static double getFinalBearing(WGS84Point pointA, WGS84Point pointB)
+    {
+        double bearing = GeoCalculation.getInitialBearing(pointA, pointB);
+        return bearing + 180 % 360;
     }
 
     /**
