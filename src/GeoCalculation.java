@@ -241,11 +241,15 @@ public class GeoCalculation {
 }
 
 
+//FRAGEBOGEN - Leander Kausche (fgvt)
+//https://www.soscisurvey.de/tam2016/?act=MpcwFkHGgd9j1uxyET6GIiZG
+
 
 //http://www.movable-type.co.uk/scripts/latlong.html
 //http://www.purplemath.com/modules/radians.htm
 //https://www.daftlogic.com/projects-google-maps-area-calculator-tool.htm
 //http://www.gpskoordinaten.de/
+//https://developers.google.com/maps/
 //http://williams.best.vwh.net/avform.htm
 
 
