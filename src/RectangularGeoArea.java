@@ -3,7 +3,6 @@
  */
 public class RectangularGeoArea {
 
-
     private WGS84Point centerPoint;
     private long toShortSide;
     private long toLongSide;

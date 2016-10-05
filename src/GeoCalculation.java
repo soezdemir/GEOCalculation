@@ -142,6 +142,11 @@ public class GeoCalculation {
         return new WGS84Point(x,y);
     }
 
+    public static WGS84Point getRectangle(WGS84Point pointA, double distance, double angle)
+    {
+        return null;
+    }
+
     /**
      * Returns the point of intersection of two paths defined by point and bearing
      * @param pointA First Point e.g. (50.00489 / 8.42182)
@@ -168,59 +173,65 @@ public class GeoCalculation {
 
         double azimuth12, azimuth21;
 
-        double distanceA = 2 * Math.asin(Math.sqrt((Math.sin(deltaLatitude/2) * Math.sin(deltaLatitude/2))
-                                + Math.cos(latitudeA) * Math.cos(latitudeB) * (Math.sin(deltaLongitude/2)
-                                * Math.sin(deltaLongitude/2))));
+        double distanceA = 2 * Math.asin(Math.sqrt(Math.sin(deltaLatitude/2) * Math.sin(deltaLatitude/2)
+                                + (Math.cos(latitudeA) * Math.cos(latitudeB)) * Math.sin(deltaLongitude/2)
+                                * Math.sin(deltaLongitude/2)));
         System.out.print("*** distanceA = " + distanceA + " \n");
 
         double azimuthA = Math.acos((Math.sin(latitudeB) - Math.sin(latitudeA) * Math.cos(distanceA))
-                                    / Math.sin(distanceA) * Math.cos(latitudeA));
+                                    / (Math.sin(distanceA) * Math.cos(latitudeA)));
         System.out.print("*** azimuthA = " + azimuthA + " \n");
 
         double azimuthB = Math.acos((Math.sin(latitudeA) - Math.sin(latitudeB) * Math.cos(distanceA))
-                                    / Math.sin(distanceA) * Math.cos(latitudeB));
+                                    / (Math.sin(distanceA) * Math.cos(latitudeB)));
         System.out.print("*** azimuthB = " + azimuthB + " \n");
 
-        if (Math.sin(pointB.getLongitudeDegree() - pointA.getLongitudeDegree()) > 0)
+        if (Math.sin(longitudeB-longitudeA) > 0)
         {
             azimuth12 = azimuthA;
-            azimuth21 = 2 * Math.PI - azimuthA;
+            azimuth21 = 2 * Math.PI - azimuthB;
         }
         else
         {
-            azimuth12 = 2 * Math.PI - azimuthB;
+            azimuth12 = 2 * Math.PI - azimuthA;
             azimuth21 = azimuthB;
         }
 
-        double alpha1 = (bearingA - azimuth12 + Math.PI) % (2 * Math.PI) - Math.PI;
-        System.out.print("*** alpha1 = " + alpha1 + " \n");
 
-        double alpha2 = (azimuth21 - bearingB + Math.PI) % (2 * Math.PI) - Math.PI;
-        System.out.print("*** alpha2 = " + alpha2 + " \n");
+        double alpha1 = ((bearingA - azimuth12 + Math.PI) % (2 * Math.PI)) - Math.PI;
+                        System.out.print("*** alpha1 = " + alpha1 + " \n");
 
-        double alpha3 = Math.acos(((-1)*Math.cos(alpha1) * Math.cos(alpha2))
+        double alpha2 = ((azimuth21 - bearingB + Math.PI) % (2 * Math.PI)) - Math.PI;
+                        System.out.print("*** alpha2 = " + alpha2 + " \n");
+
+        //alpha1 = Math.abs(alpha1); System.out.print("*** alpha1.abs = " + alpha1 + " \n");
+        //alpha2 = Math.abs(alpha2); System.out.print("*** alpha2.abs = " + alpha2 + " \n");
+
+        double alpha3 = Math.acos((-Math.cos(alpha1) * Math.cos(alpha2))
                         + Math.sin(alpha1) * Math.sin(alpha2) * Math.cos(distanceA));
-        System.out.print("*** alpha3 = " + alpha3 + " \n");
+                            System.out.print("*** alpha3 = " + alpha3 + " \n");
 
         double distanceB = Math.atan2(Math.sin(distanceA) * Math.sin(alpha1) * Math.sin(alpha2),
                             Math.cos(alpha2) + Math.cos(alpha1) * Math.cos(alpha3));
-        System.out.print("*** distanceB = " + distanceB + " \n");
+                            System.out.print("*** distanceB = " + distanceB + " \n");
+
+
 
         double latitude = Math.asin(Math.sin(latitudeA) * Math.cos(distanceB)
                             + Math.cos(latitudeA) * Math.sin(distanceB) * Math.cos(bearingA));
 
-        double deltaLongitude13 = Math.atan2(Math.sin(bearingA)*Math.sin(distanceB)*Math.cos(longitudeA),
-                Math.cos(distanceB) - Math.sin(latitudeA) * Math.sin(latitude));
+        double deltaLongitude13 = Math.atan2(Math.sin(bearingA) * Math.sin(distanceB) * Math.cos(latitudeA),
+                                    Math.cos(distanceB) - Math.sin(latitudeA) * Math.sin(latitude));
+                                    System.out.print("*** deltaLongitude13 = " + deltaLongitude13 + "\n");
 
-        double longitude = longitudeA + deltaLongitude13; // + Math.PI) % 2 * Math.PI - Math.PI;
+        double longitude = (longitudeA + deltaLongitude13 + Math.PI) % 2 * Math.PI - Math.PI;
 
-        System.out.print("*** deltaLongitude13 = " + deltaLongitude13 + " ***\n");
-        System.out.println("*** latitude " + latitude + " - longitude " + longitude + " ***\n");
+        System.out.println("*** latitude " + latitude + "  |  longitude " + longitude + "\n");
 
         latitude = Math.toDegrees(latitude);
         longitude = Math.toDegrees(longitude);
 
-        return new WGS84Point(latitude, (longitude+540)%360-180);
+        return new WGS84Point(latitude, longitude);
     }
 
     //ToDo Schnittpunkt zweier Geraden um Rechteck aufzuspannen
@@ -229,9 +240,17 @@ public class GeoCalculation {
     //ToDo Umrechnung der Geographischer Koordinaten(latitude, longitude) ins Sexagesimalsystem
 }
 
-//"Der Wissenschaftler ist ein Mann, der lieber zaehlt als vermutet."
+
 
 //http://www.movable-type.co.uk/scripts/latlong.html
 //http://www.purplemath.com/modules/radians.htm
-
+//https://www.daftlogic.com/projects-google-maps-area-calculator-tool.htm
+//http://www.gpskoordinaten.de/
 //http://williams.best.vwh.net/avform.htm
+
+
+
+
+
+
+//"Der Wissenschaftler ist ein Mann, der lieber zaehlt als vermutet."
