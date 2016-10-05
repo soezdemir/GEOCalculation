@@ -42,10 +42,10 @@ public class GeoCalculation {
             throw new IllegalArgumentException(EX_COORD_NULL);
         }
         double largeArc;
-        double radLatitude1 = Math.toRadians(pointA.getLatitudeDegree());
-        double radLongitude1 = Math.toRadians(pointA.getLongitudeDegree());
-        double radLatitude2 = Math.toRadians(pointB.getLatitudeDegree());
-        double radLongitude2 = Math.toRadians(pointB.getLongitudeDegree());
+        double radLatitude1     = Math.toRadians(pointA.getLatitudeDegree());
+        double radLongitude1    = Math.toRadians(pointA.getLongitudeDegree());
+        double radLatitude2     = Math.toRadians(pointB.getLatitudeDegree());
+        double radLongitude2    = Math.toRadians(pointB.getLongitudeDegree());
 
         largeArc = Math.sin(radLatitude1) * Math.sin(radLatitude2) +
                   Math.cos(radLatitude1) * Math.cos(radLatitude2) *
@@ -157,6 +157,8 @@ public class GeoCalculation {
      */
     public static WGS84Point intersectionPoint(WGS84Point pointA, double angleA, WGS84Point pointB, double angleB)
     {
+        System.out.println("*** pointA " + pointA);
+        System.out.println("*** pointB " + pointB);
         double bearingA = Math.toRadians(angleA);
         System.out.println("\n*** bearingA = " + bearingA + " ");
         System.out.println("*** angleA = " + angleA + " ==> " +(angleA + 360) + " \n");
@@ -171,6 +173,8 @@ public class GeoCalculation {
         double deltaLatitude = pointB.getLatitudeDegree() - pointA.getLatitudeDegree();
         double deltaLongitude = pointB.getLongitudeDegree() - pointA.getLongitudeDegree();
 
+        System.out.print("\n*** deltaLatitude: " + deltaLatitude);
+        System.out.println("\n*** deltaLongitude: " + deltaLongitude);
         double azimuth12, azimuth21;
 
         double distanceA = 2 * Math.asin(Math.sqrt(Math.sin(deltaLatitude/2) * Math.sin(deltaLatitude/2)
@@ -198,16 +202,16 @@ public class GeoCalculation {
         }
 
 
-        double alpha1 = ((bearingA - azimuth12 + Math.PI) % (2 * Math.PI)) - Math.PI;
+        double alpha1 = (bearingA - azimuth12 + Math.PI) % (2 * Math.PI) - Math.PI;
                         System.out.print("*** alpha1 = " + alpha1 + " \n");
 
-        double alpha2 = ((azimuth21 - bearingB + Math.PI) % (2 * Math.PI)) - Math.PI;
+        double alpha2 = (azimuth21 - bearingB + Math.PI) % (2 * Math.PI) - Math.PI;
                         System.out.print("*** alpha2 = " + alpha2 + " \n");
 
         //alpha1 = Math.abs(alpha1); System.out.print("*** alpha1.abs = " + alpha1 + " \n");
         //alpha2 = Math.abs(alpha2); System.out.print("*** alpha2.abs = " + alpha2 + " \n");
 
-        double alpha3 = Math.acos((-Math.cos(alpha1) * Math.cos(alpha2))
+        double alpha3 = Math.acos(-Math.cos(alpha1) * Math.cos(alpha2)
                         + Math.sin(alpha1) * Math.sin(alpha2) * Math.cos(distanceA));
                             System.out.print("*** alpha3 = " + alpha3 + " \n");
 
@@ -224,7 +228,7 @@ public class GeoCalculation {
                                     Math.cos(distanceB) - Math.sin(latitudeA) * Math.sin(latitude));
                                     System.out.print("*** deltaLongitude13 = " + deltaLongitude13 + "\n");
 
-        double longitude = (longitudeA + deltaLongitude13 + Math.PI) % 2 * Math.PI - Math.PI;
+        double longitude = (longitudeA + deltaLongitude13 + Math.PI) % (2 * Math.PI) - Math.PI;
 
         System.out.println("*** latitude " + latitude + "  |  longitude " + longitude + "\n");
 

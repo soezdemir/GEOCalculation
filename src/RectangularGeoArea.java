@@ -61,5 +61,12 @@ public class RectangularGeoArea {
         return this.azimuthAngle;
     }
 
+    public String toString()
+    {
+        return "\n\tCenterPoint: " + getCenterPoint() +
+                "\n\tShortSide : " + getToShortSide() +
+                "\n\tLongSide  : " + getToLongSide() +
+                "\n\tAzimuth   : " + getAzimuthAngle();
+    }
 
 }//ENDE

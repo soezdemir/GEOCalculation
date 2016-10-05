@@ -7,7 +7,7 @@ import java.lang.String;
 
 public class GeoStart {
 
-    private static ArrayList<WGS84Point> testPoint = new ArrayList<>();
+    //private static ArrayList<WGS84Point> testPoint = new ArrayList<>();
 
     public static void main(String args[])
     {
@@ -76,11 +76,11 @@ public class GeoStart {
         RectangularGeoArea rectangle = new RectangularGeoArea(a, (long) GeoCalculation.getDistanceBetween(pointD,pointE),
                 (long) GeoCalculation.getDistanceBetween(pointB,pointC), GeoCalculation.getInitialBearing(a, b));
 
-        System.out.print("\n\t*****" + rectangle + "*****\n");
+        System.out.print("\n\t*****\n " + rectangle + "\n\t*****\n");
 
-        //System.out.println("\tIntersection Point: "
-        //        + GeoCalculation.intersectionPoint(b, GeoCalculation.getInitialBearing(a,b)-90,
-        //        D, GeoCalculation.getInitialBearing(a,b)));
+        System.out.println("\tIntersection Point: "
+                + GeoCalculation.intersectionPoint(b, GeoCalculation.getInitialBearing(a,b),
+                pointD, GeoCalculation.getInitialBearing(a,b)+90));
         //System.out.println("\tIntersection Point: "
         //                   + GeoCalculation.intersectionPoint(b, 292.744, D, 22.744));
         System.out.println("=======================================================================================\n");
@@ -90,7 +90,7 @@ public class GeoStart {
      * Parameters to testing GeoCalculations
      * (49.245078, 6.936198) with latitude and longitude values
      */
-    public static void testValuesForDistanceBetween()
+   /** public static void testValuesForDistanceBetween()
     {
         testPoint.add(new WGS84Point(52.51640, 13.37770));  //Berlin
         testPoint.add(new WGS84Point(38.69267, -9.177944)); //Lissabon
@@ -106,7 +106,7 @@ public class GeoStart {
 
         testPoint.add(new WGS84Point(49.198811, 6.693405)); //Rue de la Bonne Fontaine
         testPoint.add(new WGS84Point(49.199084, 6.692552)); //Rue de la Bonne Fontaine
-    }
+    }*/
 
     /**
      * <br> Scanner method for a WGS84-Point </br>
