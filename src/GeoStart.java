@@ -74,10 +74,6 @@ public class GeoStart {
                                                  *GeoCalculation.getDistanceBetween(pointD,pointE)) + " km²");
 
 
-      /**  RectangularGeoArea rectangle = new RectangularGeoArea(a, (long) GeoCalculation.getDistanceBetween(pointD,pointE),
-                (long) GeoCalculation.getDistanceBetween(pointB,pointC), GeoCalculation.getInitialBearing(a, b));
-
-        System.out.print("\n\t*****\n " + rectangle + "\n\t*****\n"); **/
         System.out.println("\n***************************************************************************************");
         System.out.println("***************************************************************************************\n");
         /**System.out.println("\tIntersection Point: "
@@ -92,11 +88,23 @@ public class GeoStart {
         System.out.println("***************************************************************************************\n");
         **/
 
-        WGS84Point aPoint = new WGS84Point(49.991712,8.413154); //Ruesselsheim - Bahnhofsplatz 2 --> CenterPoint
-        double azimuth = 22.0;
-        double aDistance = 1.0;
-        double bDistance = 0.5;
+        //startRectangularArea(a, 306, 0.1, 0.1);
+        startRectangularArea();
+    }
+
+    //public static void startRectangularArea(WGS84Point centerPoint, double angle, double aDistance, double bDistance)
+    public static void startRectangularArea()
+    {
+        //WGS84Point aPoint = new WGS84Point(49.991712,8.413154); //Ruesselsheim - Bahnhofsplatz 2 --> CenterPoint
+        WGS84Point aPoint = new WGS84Point(49.245532, 6.937126); //Saarbrücken - Innovationscampus --> CenterPoint
+        double azimuth = 306.0;
+        double aDistance = 0.1;
+        double bDistance = 0.1;
+
         System.out.println(" -- Rectangular Geo Area --");
+        RectangularGeoArea rectangleObject = new RectangularGeoArea(aPoint, (long) aDistance*1000, (long) bDistance*1000, azimuth);
+        System.out.println(rectangleObject + "\n");
+
         System.out.println(" A-" + aPoint + " -- azimuth: " + azimuth + "° -- aDistance: " + aDistance + " km -- bDistance: " + bDistance + " km ");
 
         System.out.print(" B-");
@@ -136,6 +144,7 @@ public class GeoStart {
         WGS84Point cornerP4 = GeoCalculation.searchPoint(dPoint, bDistance, azimuth-90);
         System.out.println(cornerP4);
     }
+
 
     /**
      * Parameters to testing GeoCalculations
