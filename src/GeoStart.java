@@ -22,10 +22,10 @@ public class GeoStart {
         System.out.println("Point B: " + b);
         System.out.println("=======================================================================================");
 
-        System.out.println("\tDistance:\t\t\t\t\t" + GeoCalculation.getDistanceBetween(a,b) + " km");
+        System.out.println("\tDistance:\t\t\t\t\t" + GeoCalculation.getDistanceBetweenTwoPoints(a,b) + " km");
         System.out.println("\tHalf-way Point:\t\t\t\t" + GeoCalculation.getMiddlePoint(a,b));
         System.out.println("\tDistance to Half-way Point:\t"
-                + GeoCalculation.getDistanceBetween(a, GeoCalculation.getMiddlePoint(a,b)) + " km");
+                + GeoCalculation.getDistanceBetweenTwoPoints(a, GeoCalculation.getMiddlePoint(a,b)) + " km");
         System.out.println("\tBearing:\t\t\t\t\t" + GeoCalculation.getInitialBearing(a, b) + "°\t--> "
                             + GeoCalculation.tenthMicroDegreeToDegree((long)GeoCalculation.getInitialBearing(a, b))
                             + "\t[tenth micro degree]");
@@ -36,42 +36,42 @@ public class GeoStart {
         System.out.println("\tsearchPoints():" +
                          "\n\t-----------------------------------------------------------------------------------");
 
-        WGS84Point pointB = GeoCalculation.searchPoint(a, GeoCalculation.getDistanceBetween(a, b),
+        WGS84Point pointB = GeoCalculation.searchPoint(a, GeoCalculation.getDistanceBetweenTwoPoints(a, b),
                                 GeoCalculation.getInitialBearing(a,b)); System.out.println("\tPoint B: " + pointB);
-        WGS84Point pointC = GeoCalculation.searchPoint(a, GeoCalculation.getDistanceBetween(a,b),
+        WGS84Point pointC = GeoCalculation.searchPoint(a, GeoCalculation.getDistanceBetweenTwoPoints(a,b),
                                 GeoCalculation.getFinalBearing(a,b)); System.out.println("\tPoint C: " + pointC);
-        WGS84Point pointD = GeoCalculation.searchPoint(a, (GeoCalculation.getDistanceBetween(a,b)/2),
+        WGS84Point pointD = GeoCalculation.searchPoint(a, (GeoCalculation.getDistanceBetweenTwoPoints(a,b)/2),
                                 GeoCalculation.getInitialBearing(a,b)-90); System.out.println("\tPoint D: " + pointD);
-        WGS84Point pointE = GeoCalculation.searchPoint(a, (GeoCalculation.getDistanceBetween(a,b)/2),
+        WGS84Point pointE = GeoCalculation.searchPoint(a, (GeoCalculation.getDistanceBetweenTwoPoints(a,b)/2),
                                 GeoCalculation.getInitialBearing(a,b)+90); System.out.println("\tPoint E: " + pointE);
 
         System.out.println("\t-----------------------------------------------------------------------------------");
 
-        WGS84Point cp1 = GeoCalculation.searchPoint(b, (GeoCalculation.getDistanceBetween(a,b)/2),
+        WGS84Point cp1 = GeoCalculation.searchPoint(b, (GeoCalculation.getDistanceBetweenTwoPoints(a,b)/2),
                                             GeoCalculation.getInitialBearing(a,b)-90);
                                             System.out.println("\tCornerPoint CP1: " + cp1);
-        WGS84Point cp2 = GeoCalculation.searchPoint(b, (GeoCalculation.getDistanceBetween(a,b)/2),
+        WGS84Point cp2 = GeoCalculation.searchPoint(b, (GeoCalculation.getDistanceBetweenTwoPoints(a,b)/2),
                                             GeoCalculation.getInitialBearing(a,b)+90);
                                             System.out.println("\tCornerPoint CP2: " + cp2);
-        WGS84Point cp3 = GeoCalculation.searchPoint(pointC, (GeoCalculation.getDistanceBetween(a,pointC)/2),
+        WGS84Point cp3 = GeoCalculation.searchPoint(pointC, (GeoCalculation.getDistanceBetweenTwoPoints(a,pointC)/2),
                                             GeoCalculation.getFinalBearing(a,pointC)+90);
                                             System.out.println("\tCornerPoint CP3: " + cp3);
-        WGS84Point cp4 = GeoCalculation.searchPoint(pointC, (GeoCalculation.getDistanceBetween(a,pointC)/2),
+        WGS84Point cp4 = GeoCalculation.searchPoint(pointC, (GeoCalculation.getDistanceBetweenTwoPoints(a,pointC)/2),
                                             GeoCalculation.getFinalBearing(a,pointC)-90);
                                             System.out.println("\tCornerPoint CP4: " + cp4);
 
         System.out.println("\t-----------------------------------------------------------------------------------");
-        System.out.println("\tLong side of Rectangle      :\t" + GeoCalculation.getDistanceBetween(cp1,cp3) + " km");
-        System.out.println("\tShort side of Rectangle     :\t" + GeoCalculation.getDistanceBetween(cp1,cp2) + " km");
-        System.out.println("\tDiagonal Vector of Rectangle:\t" + GeoCalculation.getDistanceBetween(cp1,cp4) + " km");
-        System.out.println("\tRectangular GeoArea         :\t" + ((GeoCalculation.getDistanceBetween(a,b)*2) *
-                            (GeoCalculation.getDistanceBetween(a, GeoCalculation.getMiddlePoint(a,b)) * 2)) + " km²");
+        System.out.println("\tLong side of Rectangle      :\t" + GeoCalculation.getDistanceBetweenTwoPoints(cp1,cp4) + " km");
+        System.out.println("\tShort side of Rectangle     :\t" + GeoCalculation.getDistanceBetweenTwoPoints(cp1,cp2) + " km");
+        System.out.println("\tDiagonal Vector of Rectangle:\t" + GeoCalculation.getDistanceBetweenTwoPoints(cp1,cp3) + " km");
+        System.out.println("\tRectangular GeoArea         :\t" + ((GeoCalculation.getDistanceBetweenTwoPoints(a,b)*2) *
+                            (GeoCalculation.getDistanceBetweenTwoPoints(a, GeoCalculation.getMiddlePoint(a,b)) * 2)) + " km²");
         System.out.println("\t-----------------------------------------------------------------------------------");
-        System.out.println("\tLong side :\t\t" + GeoCalculation.getDistanceBetween(pointB,pointC) + " km");
-        System.out.println("\tShort side:\t\t" + GeoCalculation.getDistanceBetween(pointD,pointE) + " km");
-        System.out.println("\tDiagonal Vector:" + GeoCalculation.getDistanceBetween(cp1,cp4) + " km");
-        System.out.println("\tGeoArea   :\t\t" + (GeoCalculation.getDistanceBetween(pointB,pointC)
-                                                 *GeoCalculation.getDistanceBetween(pointD,pointE)) + " km²");
+        System.out.println("\tLong side :\t\t" + GeoCalculation.getDistanceBetweenTwoPoints(pointB,pointC) + " km");
+        System.out.println("\tShort side:\t\t" + GeoCalculation.getDistanceBetweenTwoPoints(pointD,pointE) + " km");
+        System.out.println("\tDiagonal Vector:" + GeoCalculation.getDistanceBetweenTwoPoints(cp1,cp3) + " km");
+        System.out.println("\tGeoArea   :\t\t" + (GeoCalculation.getDistanceBetweenTwoPoints(pointB,pointC)
+                                                 *GeoCalculation.getDistanceBetweenTwoPoints(pointD,pointE)) + " km²");
 
 
         System.out.println("\n***************************************************************************************");
@@ -97,13 +97,15 @@ public class GeoStart {
     {
         //WGS84Point aPoint = new WGS84Point(49.991712,8.413154); //Ruesselsheim - Bahnhofsplatz 2 --> CenterPoint
         WGS84Point aPoint = new WGS84Point(49.245532, 6.937126); //Saarbrücken - Innovationscampus --> CenterPoint
-        double azimuth = 306.0;
+        double azimuth = 88.0;
         double aDistance = 0.1;
         double bDistance = 0.1;
 
+
         System.out.println(" -- Rectangular Geo Area --");
-        RectangularGeoArea rectangleObject = new RectangularGeoArea(aPoint, (long) aDistance*1000, (long) bDistance*1000, azimuth);
+        RectangularGeoArea rectangleObject = new RectangularGeoArea(aPoint, aDistance, bDistance, azimuth);
         System.out.println(rectangleObject + "\n");
+
 
         System.out.println(" A-" + aPoint + " -- azimuth: " + azimuth + "° -- aDistance: " + aDistance + " km -- bDistance: " + bDistance + " km ");
 
@@ -126,7 +128,7 @@ public class GeoStart {
         System.out.print("\tmiddle-");
         WGS84Point middlePoint = GeoCalculation.getMiddlePoint(aPoint,bPoint);
         System.out.print(middlePoint);
-        System.out.println("\t\thalfway-distance: " + GeoCalculation.getDistanceBetween(aPoint, middlePoint));
+        System.out.println("\t\thalfway-distance: " + GeoCalculation.getDistanceBetweenTwoPoints(aPoint, middlePoint));
 
         System.out.print("\tcorner-");
         WGS84Point cornerP1 = GeoCalculation.searchPoint(bPoint, bDistance, azimuth-90);
@@ -143,6 +145,30 @@ public class GeoStart {
         System.out.print("\tcorner-");
         WGS84Point cornerP4 = GeoCalculation.searchPoint(dPoint, bDistance, azimuth-90);
         System.out.println(cornerP4);
+
+        System.out.print("\t#(1)#\t");
+        WGS84Point point1 = new WGS84Point(49.245532, 6.937126); //CenterPoint
+        System.out.print(GeoCalculation.geoFunctionOfRectangularArea(point1, aDistance, bDistance));
+
+        System.out.print("\t#(2)#\t");
+        WGS84Point point2 = new WGS84Point(49.245547, 6.937814); //Point in Area
+        System.out.print(GeoCalculation.geoFunctionOfRectangularArea(point2, aDistance, bDistance));
+
+        System.out.print("\t#(3)#\t");
+        WGS84Point point3 = new WGS84Point(49.24463322633939, 6.937174076579488); //Border of Area
+        System.out.print(GeoCalculation.geoFunctionOfRectangularArea(point3, aDistance, bDistance));
+
+        System.out.print("\t#(4)#\t");
+        WGS84Point point4 = new WGS84Point(49.244916, 6.942750); //Outside of Area
+        System.out.print(GeoCalculation.geoFunctionOfRectangularArea(point4, aDistance, bDistance));
+
+        System.out.print("\t#(5)#\t");
+        WGS84Point point5 = new WGS84Point(49.245551, 6.933751); //Outside of Area
+        System.out.print(GeoCalculation.geoFunctionOfRectangularArea(point5, aDistance, bDistance));
+
+
+
+
     }
 
 

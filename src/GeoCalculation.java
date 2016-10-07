@@ -31,21 +31,21 @@ public class GeoCalculation {
     /**
      * <br>Method with haversine formula to calculate the</br>
      * <br>great-circle distance between two WGS84Points</br>
-     * @param pointA
-     * @param pointB
+     * @param point
+     * @param anotherPoint
      * @return distance between Points in km
      */
-    public static double getDistanceBetween(WGS84Point pointA, WGS84Point pointB)
+    public static double getDistanceBetweenTwoPoints(WGS84Point point, WGS84Point anotherPoint)
     {
-        if(null == pointA || null == pointB)
+        if(null == point || null == anotherPoint)
         {
             throw new IllegalArgumentException(EX_COORD_NULL);
         }
         double largeArc;
-        double radLatitude1     = Math.toRadians(pointA.getLatitudeDegree());
-        double radLongitude1    = Math.toRadians(pointA.getLongitudeDegree());
-        double radLatitude2     = Math.toRadians(pointB.getLatitudeDegree());
-        double radLongitude2    = Math.toRadians(pointB.getLongitudeDegree());
+        double radLatitude1     = Math.toRadians(point.getLatitudeDegree());
+        double radLongitude1    = Math.toRadians(point.getLongitudeDegree());
+        double radLatitude2     = Math.toRadians(anotherPoint.getLatitudeDegree());
+        double radLongitude2    = Math.toRadians(anotherPoint.getLongitudeDegree());
 
         largeArc = Math.sin(radLatitude1) * Math.sin(radLatitude2) +
                   Math.cos(radLatitude1) * Math.cos(radLatitude2) *
@@ -74,16 +74,16 @@ public class GeoCalculation {
         bY = Math.cos(radLatitude2) * (Math.sin(deltaLongitude));
 
         double latitude;
-        latitude = Math.atan2((Math.sin(radLatitude1)) + (Math.sin(radLatitude2)),
-                Math.sqrt(Math.pow(Math.cos(radLatitude1) + bX, 2) + Math.pow(bY, 2)));
+        latitude =      Math.atan2((Math.sin(radLatitude1)) + (Math.sin(radLatitude2)),
+                        Math.sqrt(Math.pow(Math.cos(radLatitude1) + bX, 2) + Math.pow(bY, 2)));
 
         double longitude;
-        longitude = Math.toRadians(radLongitude1) + Math.atan2(bY, Math.cos(radLatitude1) + bX);
+        longitude =     Math.toRadians(radLongitude1) + Math.atan2(bY, Math.cos(radLatitude1) + bX);
 
-        latitude = Math.toDegrees(latitude);
-        longitude = Math.toDegrees(longitude);
+        latitude =      Math.toDegrees(latitude);
+        longitude =     Math.toDegrees(longitude);
 
-        return new WGS84Point(latitude,longitude);
+        return new WGS84Point(latitude, longitude);
     }
 
     /**
@@ -121,7 +121,7 @@ public class GeoCalculation {
 
     /**
      * <br>Method with a given start point, initial bearing, and distance,</br>
-     * <br>this will calculate the destination point</br>
+     * <br>this will calculate a destination point</br>
      * @param startPoint
      * @param distance
      * @param angle
@@ -145,10 +145,43 @@ public class GeoCalculation {
         return new WGS84Point(x,y);
     }
 
-    public static WGS84Point getRectangle(WGS84Point pointA, double distance, double angle)
-    {
-        return null;
+    /** Geometric function F for a rectangular area
+     *	ETSI EN 302 931 V1.0.0 (2010-12)
+     *	Geographical Area Definition - Intelligent Transport Systems (ITS)
+     *  A Method to determine whether a Point Z is in the Rectangle Area.
+     *  value = 1 ---> Point is the center Point
+     *  value > 0 ---> Point is in the Area
+     *  value = 0 ---> Point at the border of the Area
+     *  value < 0 ---> Point is outside of the Area
+     * */
+    public double geoFunctionOfRectangularArea(WGS84Point point, double aDistance, double bDistance){
+
+        double xValue = point.getLatitudeDegree();
+        double yValue = point.getLongitudeDegree();
+        double valueOfSideA = Math.abs(aDistance * 2);
+        double valueOfSideB = Math.abs(bDistance * 2);
+
+        double result = Math.min ( 1 - (Math.pow(xValue/valueOfSideA, 2)) ,  1 - (Math.pow(yValue/valueOfSideB, 2)) );
+
+        if (result == 1){
+            System.out.print (" This " + point + " IS CENTERPOINT of GeoArea \n");
+        }
+        else if(result > 0){
+            System.out.print (" This " + point + " IS in GeoArea! \n");
+        }
+        else if(result == 0){
+            System.out.print (" This" + point + " is at the BORDER of GeoArea! \n");
+        }
+        else if(result < 0){
+            System.out.print (" This" + point + " is OUTSIDE the GeoArea! \n");
+        }
+
+        return result;
     }
+
+
+
+
 
     /**
      * Returns the point of intersection of two paths defined by point and bearing
@@ -258,8 +291,7 @@ public class GeoCalculation {
 }
 
 
-//FRAGEBOGEN - Leander Kausche (fgvt)
-//https://www.soscisurvey.de/tam2016/?act=MpcwFkHGgd9j1uxyET6GIiZG
+
 
 
 //http://www.movable-type.co.uk/scripts/latlong.html
@@ -274,7 +306,8 @@ public class GeoCalculation {
 
 
 
+//FRAGEBOGEN - Leander Kausche (fgvt)
+//https://www.soscisurvey.de/tam2016/?act=MpcwFkHGgd9j1uxyET6GIiZG
+
+
 //"Der Wissenschaftler ist ein Mann, der lieber zaehlt als vermutet."
-
-
-// 50° 00′ 27″ N, 008° 24′ 41″ E

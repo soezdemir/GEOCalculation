@@ -4,8 +4,8 @@
 public class RectangularGeoArea {
 
     private WGS84Point centerPoint;
-    private long toShortSide;
-    private long toLongSide;
+    private double toShortSide;
+    private double toLongSide;
     private double azimuthAngle;
 
     /**
@@ -15,7 +15,7 @@ public class RectangularGeoArea {
      * @param toLongSide Distance to long side in meters
      * @param azimuthAngle Angle of Azimuth in degrees
      */
-    public RectangularGeoArea(WGS84Point centerPoint, long toShortSide, long toLongSide, double azimuthAngle)
+    public RectangularGeoArea(WGS84Point centerPoint, double toShortSide, double toLongSide, double azimuthAngle)
     {
         if(null != centerPoint)
         {
@@ -23,7 +23,7 @@ public class RectangularGeoArea {
         }
         else
         {
-            this.centerPoint = new WGS84Point(0.0, 0.0);
+            this.centerPoint = new WGS84Point(0,0);
         }
         this.toShortSide = toShortSide;
         this.toLongSide = toLongSide;
@@ -41,7 +41,7 @@ public class RectangularGeoArea {
      * Getter
      * @return Distance to short side in meters.
      */
-    public final long getToShortSide() {
+    public final double getToShortSide() {
         return this.toShortSide;
     }
 
@@ -49,7 +49,7 @@ public class RectangularGeoArea {
      * Getter
      * @return Distance to long side in meters
      */
-    public final long getToLongSide() {
+    public final double getToLongSide() {
         return this.toLongSide;
     }
 
@@ -63,10 +63,10 @@ public class RectangularGeoArea {
 
     public String toString()
     {
-        return "\n\tCenterPoint: " + getCenterPoint() +
-                "\n\ttoShortSide : " + getToShortSide() +
-                "\n\ttoLongSide  : " + getToLongSide() +
-                "\n\tAzimuth   : " + getAzimuthAngle();
+        return "\n\tCenterPoint  : "    + getCenterPoint() +
+                "\n\ttoShortSide : "    + getToShortSide() +
+                "\n\ttoLongSide  : "    + getToLongSide() +
+                "\n\tAzimuth     : "    + getAzimuthAngle();
     }
 
 }//ENDE
