@@ -57,7 +57,7 @@ public class WGS84Point {
 
 
     public String toString(){
-        String result = "Point [" + WGS84Point.getPointID() + "] => LAT: " + this.latitude + "  \tLON: " + this.longitude;
+        String result = "Point [" + WGS84Point.getPointID() + "] => [LAT: " + this.latitude + " / LON: " + this.longitude + "]";
         return result;
     }
 }

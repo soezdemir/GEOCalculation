@@ -63,10 +63,10 @@ public class RectangularGeoArea {
 
     public String toString()
     {
-        return "\n\tCenterPoint  : "    + getCenterPoint() +
-                "\n\ttoShortSide : "    + getToShortSide() +
-                "\n\ttoLongSide  : "    + getToLongSide() +
-                "\n\tAzimuth     : "    + getAzimuthAngle();
+        return "\n CenterPoint => "    + getCenterPoint() +
+                "\n\ttoShortSide\t"    + getToShortSide() + " km" +
+                "\n\ttoLongSide \t"    + getToLongSide() + " km" +
+                "\n\tAzimuth    \t"    + getAzimuthAngle() + "°";
     }
 
 }//ENDE

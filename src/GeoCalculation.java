@@ -154,26 +154,39 @@ public class GeoCalculation {
      *  value = 0 ---> Point at the border of the Area
      *  value < 0 ---> Point is outside of the Area
      * */
-    public double geoFunctionOfRectangularArea(WGS84Point point, double aDistance, double bDistance){
+    public static double geoFunctionOfRectangularArea(WGS84Point point, double aDistance, double bDistance){
 
         double xValue = point.getLatitudeDegree();
         double yValue = point.getLongitudeDegree();
-        double valueOfSideA = Math.abs(aDistance * 2);
-        double valueOfSideB = Math.abs(bDistance * 2);
+        double valueOfSideA = Math.abs(aDistance);
+        double valueOfSideB = Math.abs(bDistance);
+        //System.out.println("\nX-Value Deg => " + xValue);
+        //System.out.println("Y-Value Deg => " + yValue);
 
-        double result = Math.min ( 1 - (Math.pow(xValue/valueOfSideA, 2)) ,  1 - (Math.pow(yValue/valueOfSideB, 2)) );
+        xValue = Math.toRadians(xValue);
+        yValue = Math.toRadians(yValue);
+        //System.out.println("xValue RAD => " + Math.toRadians(xValue));
+        //System.out.println("yValue RAD => " + Math.toRadians(yValue));
+        valueOfSideA = aDistance*1000;
+        valueOfSideB = bDistance*1000;
+        //System.out.println("SideA => " + valueOfSideA);
+        //System.out.println("SideB => " + valueOfSideB);
 
+        double result = Math.min ( 1 - (Math.pow((xValue/valueOfSideA), 2)) , 1 - (Math.pow((yValue/valueOfSideB), 2)) );
+        //result = (long) result;
+        //result = Math.toRadians(result);
+        //System.out.println("result (long)= " + result);
         if (result == 1){
-            System.out.print (" This " + point + " IS CENTERPOINT of GeoArea \n");
+            System.out.print (point + " IS CENTERPOINT of GeoArea \n");
         }
         else if(result > 0){
-            System.out.print (" This " + point + " IS in GeoArea! \n");
+            System.out.print (point + " IS in GeoArea! \n");
         }
         else if(result == 0){
-            System.out.print (" This" + point + " is at the BORDER of GeoArea! \n");
+            System.out.print (point + " is at the BORDER of GeoArea! \n");
         }
         else if(result < 0){
-            System.out.print (" This" + point + " is OUTSIDE the GeoArea! \n");
+            System.out.print (point + " is OUTSIDE the GeoArea! \n");
         }
 
         return result;

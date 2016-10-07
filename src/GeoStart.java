@@ -103,72 +103,70 @@ public class GeoStart {
 
 
         System.out.println(" -- Rectangular Geo Area --");
+        System.out.println(" A-" + aPoint + " -- azimuth: " + azimuth + "° -- aDistance: " + aDistance + " km -- bDistance: " + bDistance + " km ");
+
+        WGS84Point bPoint = GeoCalculation.searchPoint(aPoint,aDistance,azimuth);
+        System.out.println(" B-" + bPoint);
+
+        WGS84Point cPoint = GeoCalculation.searchPoint(aPoint,aDistance,azimuth-90);
+        System.out.println(" C-" + cPoint);
+
+        WGS84Point dPoint = GeoCalculation.searchPoint(aPoint,aDistance,azimuth-180);
+        System.out.println(" D-" + dPoint);
+
+        WGS84Point ePoint = GeoCalculation.searchPoint(aPoint,aDistance,azimuth-270);
+        System.out.println(" E-" + ePoint);
+
+
+        WGS84Point middlePoint = GeoCalculation.getMiddlePoint(aPoint,bPoint);
+        System.out.print("\tmiddle-" + middlePoint);
+
+        System.out.println("\t\thalfway-distance: " + GeoCalculation.getDistanceBetweenTwoPoints(aPoint, middlePoint));
+
+        WGS84Point cornerP1 = GeoCalculation.searchPoint(bPoint, bDistance, azimuth-90);
+        System.out.println("\tcorner-" + cornerP1);
+
+        WGS84Point cornerP2 = GeoCalculation.searchPoint(bPoint, bDistance, azimuth+90);
+        System.out.println("\tcorner-" + cornerP2);
+
+        WGS84Point cornerP3 = GeoCalculation.searchPoint(dPoint, bDistance, azimuth+90);
+        System.out.println("\tcorner-" + cornerP3);
+
+        WGS84Point cornerP4 = GeoCalculation.searchPoint(dPoint, bDistance, azimuth-90);
+        System.out.println("\tcorner-" + cornerP4);
+
+
+
         RectangularGeoArea rectangleObject = new RectangularGeoArea(aPoint, aDistance, bDistance, azimuth);
         System.out.println(rectangleObject + "\n");
 
+        System.out.print("\n#(1)#\t");
+        WGS84Point point1 = new WGS84Point(49.245532, 6.937126);                    //CenterPoint
+        System.out.println("result:  " + GeoCalculation.geoFunctionOfRectangularArea(point1, aDistance, bDistance));
+        System.out.println("Adist :  " +aDistance);
+        System.out.println("Bdist :  " +bDistance);
 
-        System.out.println(" A-" + aPoint + " -- azimuth: " + azimuth + "° -- aDistance: " + aDistance + " km -- bDistance: " + bDistance + " km ");
+        System.out.print("\n#(2)#\t");
+        WGS84Point point3 = new WGS84Point(49.24463322633939, 6.937174076579488);   //Border of Area
+        System.out.println("result:  " + GeoCalculation.geoFunctionOfRectangularArea(point3, aDistance, bDistance));
+        System.out.println("Adist :  " +rectangleObject.getToLongSide());
+        System.out.println("Bdist :  " +rectangleObject.getToShortSide());
 
-        System.out.print(" B-");
-        WGS84Point bPoint = GeoCalculation.searchPoint(aPoint,aDistance,azimuth);
-        System.out.println(bPoint);
+        System.out.print("\n#(3)#\t");
+        WGS84Point point5 = new WGS84Point(49.245551, 6.933751);                    //Outside of Area
+        System.out.println("result:  " + GeoCalculation.geoFunctionOfRectangularArea(point5, aDistance, bDistance));
+        System.out.println("Adist :  " +rectangleObject.getToLongSide());
+        System.out.println("Bdist :  " +rectangleObject.getToShortSide());
 
-        System.out.print(" C-");
-        WGS84Point cPoint = GeoCalculation.searchPoint(aPoint,aDistance,azimuth-90);
-        System.out.println(cPoint);
-
-        System.out.print(" D-");
-        WGS84Point dPoint = GeoCalculation.searchPoint(aPoint,aDistance,azimuth-180);
-        System.out.println(dPoint);
-
-        System.out.print(" E-");
-        WGS84Point ePoint = GeoCalculation.searchPoint(aPoint,aDistance,azimuth-270);
-        System.out.println(ePoint);
-
-        System.out.print("\tmiddle-");
-        WGS84Point middlePoint = GeoCalculation.getMiddlePoint(aPoint,bPoint);
-        System.out.print(middlePoint);
-        System.out.println("\t\thalfway-distance: " + GeoCalculation.getDistanceBetweenTwoPoints(aPoint, middlePoint));
-
-        System.out.print("\tcorner-");
-        WGS84Point cornerP1 = GeoCalculation.searchPoint(bPoint, bDistance, azimuth-90);
-        System.out.println(cornerP1);
-
-        System.out.print("\tcorner-");
-        WGS84Point cornerP2 = GeoCalculation.searchPoint(bPoint, bDistance, azimuth+90);
-        System.out.println(cornerP2);
-
-        System.out.print("\tcorner-");
-        WGS84Point cornerP3 = GeoCalculation.searchPoint(dPoint, bDistance, azimuth+90);
-        System.out.println(cornerP3);
-
-        System.out.print("\tcorner-");
-        WGS84Point cornerP4 = GeoCalculation.searchPoint(dPoint, bDistance, azimuth-90);
-        System.out.println(cornerP4);
-
-        System.out.print("\t#(1)#\t");
-        WGS84Point point1 = new WGS84Point(49.245532, 6.937126); //CenterPoint
-        System.out.print(GeoCalculation.geoFunctionOfRectangularArea(point1, aDistance, bDistance));
-
-        System.out.print("\t#(2)#\t");
-        WGS84Point point2 = new WGS84Point(49.245547, 6.937814); //Point in Area
-        System.out.print(GeoCalculation.geoFunctionOfRectangularArea(point2, aDistance, bDistance));
-
-        System.out.print("\t#(3)#\t");
-        WGS84Point point3 = new WGS84Point(49.24463322633939, 6.937174076579488); //Border of Area
-        System.out.print(GeoCalculation.geoFunctionOfRectangularArea(point3, aDistance, bDistance));
-
-        System.out.print("\t#(4)#\t");
-        WGS84Point point4 = new WGS84Point(49.244916, 6.942750); //Outside of Area
+        /**
+        System.out.print("\n\t#(4)#\t");
+        WGS84Point point4 = new WGS84Point(49.244916, 6.942750);                    //Outside of Area
         System.out.print(GeoCalculation.geoFunctionOfRectangularArea(point4, aDistance, bDistance));
 
-        System.out.print("\t#(5)#\t");
-        WGS84Point point5 = new WGS84Point(49.245551, 6.933751); //Outside of Area
-        System.out.print(GeoCalculation.geoFunctionOfRectangularArea(point5, aDistance, bDistance));
-
-
-
-
+        System.out.print("\n\t#(5)#\t");
+        WGS84Point point2 = new WGS84Point(49.245547, 6.937814);                    //Point in Area
+        System.out.print(GeoCalculation.geoFunctionOfRectangularArea(point2, aDistance, bDistance));
+        **/
     }
 
 
