@@ -145,57 +145,6 @@ public class GeoCalculation {
         return new WGS84Point(x,y);
     }
 
-    /** Geometric function F for a rectangular area
-     *	ETSI EN 302 931 V1.0.0 (2010-12)
-     *	Geographical Area Definition - Intelligent Transport Systems (ITS)
-     *  A Method to determine whether a Point Z is in the Rectangle Area.
-     *  value = 1 ---> Point is the center Point
-     *  value > 0 ---> Point is in the Area
-     *  value = 0 ---> Point at the border of the Area
-     *  value < 0 ---> Point is outside of the Area
-     * */
-    public static double geoFunctionOfRectangularArea(WGS84Point point, double aDistance, double bDistance){
-
-        double xValue = point.getLatitudeDegree();
-        double yValue = point.getLongitudeDegree();
-        double valueOfSideA = Math.abs(aDistance);
-        double valueOfSideB = Math.abs(bDistance);
-        //System.out.println("\nX-Value Deg => " + xValue);
-        //System.out.println("Y-Value Deg => " + yValue);
-
-        xValue = Math.toRadians(xValue);
-        yValue = Math.toRadians(yValue);
-        //System.out.println("xValue RAD => " + Math.toRadians(xValue));
-        //System.out.println("yValue RAD => " + Math.toRadians(yValue));
-        valueOfSideA = aDistance*1000;
-        valueOfSideB = bDistance*1000;
-        //System.out.println("SideA => " + valueOfSideA);
-        //System.out.println("SideB => " + valueOfSideB);
-
-        double result = Math.min ( 1 - (Math.pow((xValue/valueOfSideA), 2)) , 1 - (Math.pow((yValue/valueOfSideB), 2)) );
-        //result = (long) result;
-        //result = Math.toRadians(result);
-        //System.out.println("result (long)= " + result);
-        if (result == 1){
-            System.out.print (point + " IS CENTERPOINT of GeoArea \n");
-        }
-        else if(result > 0){
-            System.out.print (point + " IS in GeoArea! \n");
-        }
-        else if(result == 0){
-            System.out.print (point + " is at the BORDER of GeoArea! \n");
-        }
-        else if(result < 0){
-            System.out.print (point + " is OUTSIDE the GeoArea! \n");
-        }
-
-        return result;
-    }
-
-
-
-
-
     /**
      * Returns the point of intersection of two paths defined by point and bearing
      * @param point First Point e.g. (50.00489 / 8.42182)
@@ -324,3 +273,4 @@ public class GeoCalculation {
 
 
 //"Der Wissenschaftler ist ein Mann, der lieber zaehlt als vermutet."
+//http://www.linux-related.de/index.html?/coding/o-notation.htm

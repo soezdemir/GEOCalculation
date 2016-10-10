@@ -3,9 +3,11 @@
  */
 public class RectangularGeoArea {
 
+
+
     private WGS84Point centerPoint;
-    private double toShortSide;
-    private double toLongSide;
+    private static double toShortSide;
+    private static double toLongSide;
     private double azimuthAngle;
 
     /**
@@ -67,6 +69,60 @@ public class RectangularGeoArea {
                 "\n\ttoShortSide\t"    + getToShortSide() + " km" +
                 "\n\ttoLongSide \t"    + getToLongSide() + " km" +
                 "\n\tAzimuth    \t"    + getAzimuthAngle() + "°";
+    }
+
+    /** Geometric function F for a rectangular area
+     *	ETSI EN 302 931 V1.0.0 (2010-12)
+     *	Geographical Area Definition - Intelligent Transport Systems (ITS)
+     *  A Method to determine whether a WGS84Point is in the rectangular area.
+     *  @return result
+     * */
+    public static double geoFunctionOfRectangularArea(WGS84Point point){
+
+        double xValue = point.getLatitudeDegree();
+        double yValue = point.getLongitudeDegree();
+        double valueOfSideA = (RectangularGeoArea.toLongSide);
+        double valueOfSideB = (RectangularGeoArea.toShortSide);
+
+        double result = Math.min(1 - (Math.pow((xValue/valueOfSideA), 2)), 1 - (Math.pow((yValue/valueOfSideB), 2)));
+        //System.out.println("result: " + result);
+        return result;
+    }
+
+    /**
+     * Method to determine whether a point is located inside,
+     * outside, at the centre, or at the border of a geographical area.
+     * @param rectangleObject
+     * @param point
+     *  value = 1 -----> Point is the center point
+     *  value > 0 -----> Point is inside the area
+     *  value = 0 -----> Point at the border of the area
+     *  value < 0 -----> Point is outside of the area
+     */
+    public static boolean isPointInArea (RectangularGeoArea rectangleObject, WGS84Point point)
+    {
+        if (rectangleObject.geoFunctionOfRectangularArea(point) == 1)
+        {
+            System.out.print (point + " is CENTERPOINT of GeoArea \n");
+            return true;
+        }
+        else if(rectangleObject.geoFunctionOfRectangularArea(point) > 0)
+        {
+            System.out.print (point + " is INSIDE GeoArea! \n");
+            return true;
+        }
+        else if(rectangleObject.geoFunctionOfRectangularArea(point) == 0)
+        {
+            System.out.print (point + " is at the BORDER of GeoArea! \n");
+            return true;
+        }
+        else if(rectangleObject.geoFunctionOfRectangularArea(point) < 0)
+        {
+            System.out.print (point + " is OUTSIDE the GeoArea! \n");
+            return false;
+        }
+
+        return false;
     }
 
 }//ENDE

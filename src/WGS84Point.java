@@ -25,39 +25,44 @@ public class WGS84Point {
      * @param latitude
      * @param longitude
      */
-    public WGS84Point(double latitude, double longitude){
+    public WGS84Point(double latitude, double longitude)
+    {
         this.latitude = latitude;
         this.longitude = longitude;
         this.counter ++;
     }
 
-/*
-   public WGS84Point(long latitudeInDegree, long longitudeInDegree)
-   {
-       this(GeoCalculation.degreeToTenthMicroDegree(latitudeInDegree),
-       GeoCalculation.degreeToTenthMicroDegree(longitudeInDegree));
-   }
-*/
 
 
-    public static int getPointID(){// siehe Nummerierungsobjekte (Singleton) http://www.java-forum.org/thema/objekte-durchnummerieren.38878/
+
+    /**
+    public WGS84Point(long latitude, long longitude)
+    {
+       this(GeoCalculation.degreeToTenthMicroDegree(latitude),
+       GeoCalculation.degreeToTenthMicroDegree(longitude));
+    }
+    **/
+
+
+    public static int getPointID()
+    {// siehe Nummerierungsobjekte (Singleton) http://www.java-forum.org/thema/objekte-durchnummerieren.38878/
         return id++;
-
     }
 
-    public double getLatitudeDegree(){
+    public double getLatitudeDegree()
+    {
         return this.latitude;
     }
 
-    public double getLongitudeDegree(){
+    public double getLongitudeDegree()
+    {
         return this.longitude;
     }
 
-
-
-
-    public String toString(){
-        String result = "Point [" + WGS84Point.getPointID() + "] => [LAT: " + this.latitude + " / LON: " + this.longitude + "]";
+    public String toString()
+    {
+        String result = "Point [" + WGS84Point.getPointID() +
+                        "] => [LAT: " + this.latitude + " / LON: " + this.longitude + "]";
         return result;
     }
 }
