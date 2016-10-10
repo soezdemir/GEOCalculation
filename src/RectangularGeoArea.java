@@ -8,7 +8,11 @@ public class RectangularGeoArea {
     private WGS84Point centerPoint;
     private static double toShortSide;
     private static double toLongSide;
+    private static double valueOfSideA;
+    private static double valueOfSideB;
     private double azimuthAngle;
+    private double area;
+    private double extend;
 
     /**
      * Constructor of RectangularGeoArea
@@ -30,6 +34,8 @@ public class RectangularGeoArea {
         this.toShortSide = toShortSide;
         this.toLongSide = toLongSide;
         this.azimuthAngle = azimuthAngle;
+        this.area = area;
+        this.extend = extend;
     }
     /**
      * Getter
@@ -63,15 +69,37 @@ public class RectangularGeoArea {
         return this.azimuthAngle;
     }
 
-    public String toString()
+    /**
+     * Getter
+     * @return Rectangle Area in m²
+     */
+    public final double getRectangleArea(){ return this.area; }
+
+    /**
+     * Getter
+     * @return Rectangle Extend in meter
+     */
+    public final double getRectangleExtend(){ return this.extend; }
+
+
+    public final double getRectangleArea(double aDistance, double bDistance)
     {
-        return "\n CenterPoint => "    + getCenterPoint() +
-                "\n\ttoShortSide\t"    + getToShortSide() + " km" +
-                "\n\ttoLongSide \t"    + getToLongSide() + " km" +
-                "\n\tAzimuth    \t"    + getAzimuthAngle() + "°";
+        double result = (aDistance * 2) * (bDistance * 2);
+
+        return result * 1000;
     }
 
-    /** Geometric function F for a rectangular area
+    public final double getRectangleExtend(double aDistance, double bDistance)
+    {
+        valueOfSideA = (aDistance * 2);
+        valueOfSideB = (bDistance * 2);
+        double result = 2 * (valueOfSideA + valueOfSideB);
+
+        return result * 1000;
+    }
+
+    /**
+     *  Geometric function F for a rectangular area
      *	ETSI EN 302 931 V1.0.0 (2010-12)
      *	Geographical Area Definition - Intelligent Transport Systems (ITS)
      *  A Method to determine whether a WGS84Point is in the rectangular area.
@@ -81,8 +109,8 @@ public class RectangularGeoArea {
 
         double xValue = point.getLatitudeDegree();
         double yValue = point.getLongitudeDegree();
-        double valueOfSideA = (RectangularGeoArea.toLongSide);
-        double valueOfSideB = (RectangularGeoArea.toShortSide);
+        valueOfSideA = RectangularGeoArea.toLongSide*2;
+        valueOfSideB = RectangularGeoArea.toShortSide*2;
 
         double result = Math.min(1 - (Math.pow((xValue/valueOfSideA), 2)), 1 - (Math.pow((yValue/valueOfSideB), 2)));
         //System.out.println("result: " + result);
@@ -91,7 +119,7 @@ public class RectangularGeoArea {
 
     /**
      * Method to determine whether a point is located inside,
-     * outside, at the centre, or at the border of a geographical area.
+     * outside, at the center, or at the border of a geographical area.
      * @param rectangleObject
      * @param point
      *  value = 1 -----> Point is the center point
@@ -123,6 +151,17 @@ public class RectangularGeoArea {
         }
 
         return false;
+    }
+
+    public String toString()
+    {
+        return "\n CenterPoint => "    + getCenterPoint() +
+                "\n\t\t\ttoShortSide\t"    + getToShortSide() + " km" +
+                "\n\t\t\ttoLongSide \t"    + getToLongSide() + " km" +
+                "\n\t\t\tAzimuth    \t"    + getAzimuthAngle() + "°" +
+                "\n\t\t\tArea       \t"    + getRectangleArea() + " m²" +
+                "\n\t\t\tExtend     \t"    + getRectangleExtend() + " m";
+
     }
 
 }//ENDE
