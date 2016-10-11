@@ -119,6 +119,30 @@ public class GeoCalculation {
         return bearing + 180 % 360;
     }
 
+
+    public static void getSexagesimal(WGS84Point point)
+    {
+        double latitude = point.getLatitudeDegree();
+        double longitude = point.getLongitudeDegree();
+
+        int latDegree = (int)latitude % 60;
+        int lonDegree = (int)longitude % 60;
+
+        double latMinute = (latitude - (int)latitude) * 60;
+        double lonMinute = (longitude - (int)longitude) * 60;
+
+        double latSecond = (latitude - latDegree) * 100 ;
+        latSecond = (latSecond - (int)latSecond) * 60;
+
+        double lonSecond = (longitude - lonDegree) * 100;
+        lonSecond = (lonSecond - (int)lonSecond) * 60;
+
+        System.out.println(" " + latDegree + "° " + (int)latMinute + "' "
+                                            + Math.round(1000.0*latSecond)/1000.0 + "\"");
+        System.out.println(" " + lonDegree + "° " + (int)lonMinute + "' "
+                                            + Math.round(1000.0*lonSecond)/1000.0 + "\"");
+    }
+
     /**
      * <br>Method with a given start point, initial bearing, and distance,</br>
      * <br>this will calculate a destination point</br>
@@ -139,10 +163,7 @@ public class GeoCalculation {
         double y = longitude + Math.atan2(Math.sin(bearing) * Math.sin(distance/EARTH_RAD) * Math.cos(latitude),
                     Math.cos(distance/EARTH_RAD) - Math.sin(latitude) * Math.sin(x));
 
-        x = Math.toDegrees(x);
-        y = Math.toDegrees(y);
-
-        return new WGS84Point(x,y);
+        return new WGS84Point(Math.toDegrees(x), Math.toDegrees(y));
     }
 
     /**
@@ -181,7 +202,7 @@ public class GeoCalculation {
         //System.out.print("*** deltaLatitude: " + deltaLatitude);
         double deltaLongitude = (anotherPoint.getLongitudeDegree() - point.getLongitudeDegree());
         //System.out.println("\t| deltaLongitude: " + deltaLongitude);
-
+        double floatingPoint = 2 * Math.PI - Math.PI;
 
 
         double distance12 =         2 * Math.asin(Math.sqrt(Math.sin(deltaLatitude/2) * Math.sin(deltaLatitude/2)
@@ -212,10 +233,10 @@ public class GeoCalculation {
         }
 
 
-        double alpha1 =             (azimuth13 - azimuth12 + Math.PI) % 2 * Math.PI - Math.PI;
+        double alpha1 =             (azimuth13 - azimuth12 + Math.PI) % floatingPoint;
         //System.out.print("*** alpha1 = " + alpha1 + " \n");
 
-        double alpha2 =             (azimuth21 - azimuth23 + Math.PI) % 2 * Math.PI - Math.PI;
+        double alpha2 =             (azimuth21 - azimuth23 + Math.PI) % floatingPoint;
         //System.out.print("*** alpha2 = " + alpha2 + " \n");
 
         // alpha1 =                  Math.abs(alpha1);   System.out.print("*** alpha1.abs = " + alpha1 + " \n");
@@ -237,7 +258,7 @@ public class GeoCalculation {
                                     Math.cos(distance13) - Math.sin(latitudeA) * Math.sin(latitude)));
         //System.out.print("*** deltaLongitude13 = " + deltaLongitude13 + "\n");
 
-        double longitude =          (longitudeA + deltaLongitude13 + Math.PI) % (2 * Math.PI - Math.PI);
+        double longitude =          (longitudeA + deltaLongitude13 + Math.PI) % floatingPoint;
         //System.out.println("*** longitude " + longitude);
 
         latitude =                  Math.toDegrees(latitude);
@@ -245,12 +266,22 @@ public class GeoCalculation {
 
         return new WGS84Point(latitude, longitude);
     }
+}//ENDE
+
+
+
+
+
+
+
+
+
 
     //ToDo Schnittpunkt zweier Geraden um Rechteck aufzuspannen
     //ToDo Mittelpunkt einer Distanz zwischen zwei Punkten
     //ToDo Objekterstellung mittels den vier Punkten und Mittelpunkt eines Objekts
     //ToDo Umrechnung der Geographischer Koordinaten(latitude, longitude) ins Sexagesimalsystem
-}
+
 
 
 
@@ -262,14 +293,14 @@ public class GeoCalculation {
 //http://www.gpskoordinaten.de/
 //https://developers.google.com/maps/
 //http://williams.best.vwh.net/avform.htm
+//https://github.com/mgavaghan/geodesy/tree/master/src/main/java/org/gavaghan/geodesy
+//https://github.com/softwarenerd/GreatCircle
+//https://github.com/mrJean1/PyGeodesy
 
 
+//http://earth-info.nga.mil/GandG/geotrans/
+//http://mathworld.wolfram.com/InverseGudermannian.html
 
-
-
-
-//FRAGEBOGEN - Leander Kausche (fgvt)
-//https://www.soscisurvey.de/tam2016/?act=MpcwFkHGgd9j1uxyET6GIiZG
 
 
 //"Der Wissenschaftler ist ein Mann, der lieber zaehlt als vermutet."

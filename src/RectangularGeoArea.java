@@ -13,6 +13,7 @@ public class RectangularGeoArea {
     private double azimuthAngle;
     private double area;
     private double extend;
+    private static int id = 0;
 
     /**
      * Constructor of RectangularGeoArea
@@ -34,8 +35,7 @@ public class RectangularGeoArea {
         this.toShortSide = toShortSide;
         this.toLongSide = toLongSide;
         this.azimuthAngle = azimuthAngle;
-        this.area = area;
-        this.extend = extend;
+
     }
     /**
      * Getter
@@ -73,29 +73,27 @@ public class RectangularGeoArea {
      * Getter
      * @return Rectangle Area in m²
      */
-    public final double getRectangleArea(){ return this.area; }
+    public final double getRectangleArea()
+    {
+        valueOfSideA = getToShortSide() * 2;
+        valueOfSideB = getToLongSide() * 2;
+        return this.area = valueOfSideA * valueOfSideB * 1000;
+    }
 
     /**
      * Getter
      * @return Rectangle Extend in meter
      */
-    public final double getRectangleExtend(){ return this.extend; }
-
-
-    public final double getRectangleArea(double aDistance, double bDistance)
+    public final double getRectangleExtend()
     {
-        double result = (aDistance * 2) * (bDistance * 2);
-
-        return result * 1000;
+        valueOfSideA = getToShortSide() * 2;
+        valueOfSideB = getToLongSide() * 2;
+        return this.extend = 2 * (valueOfSideA + valueOfSideB) * 1000 ;
     }
 
-    public final double getRectangleExtend(double aDistance, double bDistance)
-    {
-        valueOfSideA = (aDistance * 2);
-        valueOfSideB = (bDistance * 2);
-        double result = 2 * (valueOfSideA + valueOfSideB);
-
-        return result * 1000;
+    public static int getRectangleID()
+    {// siehe Nummerierungsobjekte (Singleton) http://www.java-forum.org/thema/objekte-durchnummerieren.38878/
+        return id++;
     }
 
     /**
@@ -109,8 +107,8 @@ public class RectangularGeoArea {
 
         double xValue = point.getLatitudeDegree();
         double yValue = point.getLongitudeDegree();
-        valueOfSideA = RectangularGeoArea.toLongSide*2;
-        valueOfSideB = RectangularGeoArea.toShortSide*2;
+        valueOfSideA = RectangularGeoArea.toLongSide * 2;
+        valueOfSideB = RectangularGeoArea.toShortSide * 2;
 
         double result = Math.min(1 - (Math.pow((xValue/valueOfSideA), 2)), 1 - (Math.pow((yValue/valueOfSideB), 2)));
         //System.out.println("result: " + result);
@@ -155,13 +153,13 @@ public class RectangularGeoArea {
 
     public String toString()
     {
-        return "\n CenterPoint => "    + getCenterPoint() +
+        return  "\n Rectangular Area [" + RectangularGeoArea.getRectangleID() + "]" +
+                "\n CenterPoint => "    + getCenterPoint() +
                 "\n\t\t\ttoShortSide\t"    + getToShortSide() + " km" +
                 "\n\t\t\ttoLongSide \t"    + getToLongSide() + " km" +
                 "\n\t\t\tAzimuth    \t"    + getAzimuthAngle() + "°" +
                 "\n\t\t\tArea       \t"    + getRectangleArea() + " m²" +
                 "\n\t\t\tExtend     \t"    + getRectangleExtend() + " m";
-
     }
 
 }//ENDE

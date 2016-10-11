@@ -138,13 +138,14 @@ public class GeoStart {
 
         RectangularGeoArea rectangleObject = new RectangularGeoArea(aPoint, aDistance, bDistance, azimuth);
         System.out.println(rectangleObject + "\n");
-        System.out.println("B-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth));
+        GeoCalculation.getSexagesimal(aPoint);
+        System.out.println("\nB-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth));
         System.out.println("C-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth-90));
         System.out.println("D-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth-180));
         System.out.println("E-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth-270));
 
         System.out.print("\n#(1)#\t ");
-        WGS84Point point1 = new WGS84Point(49.245532, 6.937126);                    //CenterPoint
+        WGS84Point point1 = new WGS84Point(49.991712, 8.413154);                    //CenterPoint
         RectangularGeoArea.geoFunctionOfRectangularArea(point1);
         RectangularGeoArea.isPointInArea(rectangleObject, point1);
 
@@ -167,6 +168,9 @@ public class GeoStart {
         WGS84Point point5 = new WGS84Point(49.245547, 6.937814);                    //Inside of Area
         RectangularGeoArea.geoFunctionOfRectangularArea(point5);
         RectangularGeoArea.isPointInArea(rectangleObject, point5);
+
+
+
     }
 
 
