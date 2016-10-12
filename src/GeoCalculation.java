@@ -90,20 +90,21 @@ public class GeoCalculation {
      * <br>Method for the initial bearing which if followed</br>
      * <br>in a straight line along a great-circle arc from</br>
      * <br>the start point to the end point</br>
-     * @param pointA
-     * @param pointB
-     * @return
+     * @param point
+     * @param anotherPoint
+     * @return bearing between two points
      */
-    public static double getInitialBearing(WGS84Point pointA, WGS84Point pointB)
+    public static double getInitialBearing(WGS84Point point, WGS84Point anotherPoint)
     {
-        double radLat1 = Math.toRadians(pointA.getLatitudeDegree());
-        double radLon1 = Math.toRadians(pointA.getLongitudeDegree());
-        double radLat2 = Math.toRadians(pointB.getLatitudeDegree());
-        double radLon2 = Math.toRadians(pointB.getLongitudeDegree());
+        double radLat1 = Math.toRadians(point.getLatitudeDegree());
+        double radLon1 = Math.toRadians(point.getLongitudeDegree());
+        double radLat2 = Math.toRadians(anotherPoint.getLatitudeDegree());
+        double radLon2 = Math.toRadians(anotherPoint.getLongitudeDegree());
 
         double bearing = Math.atan2(Math.sin(radLon2 - radLon1) * Math.cos(radLat2),
                 (Math.cos(radLat1) * Math.sin(radLat2)) - (Math.sin(radLat1) * Math.cos(radLat2)) *
                  Math.cos(radLon2 - radLon1));
+
         return Math.toDegrees(bearing);
     }
 
@@ -208,7 +209,6 @@ public class GeoCalculation {
         }
         else
         {
-            //System.out.print("------- else\n");
             azimuth12 = 2 * Math.PI - azimuthA;
             azimuth21 = azimuthB;
         }
@@ -248,19 +248,21 @@ public class GeoCalculation {
     //ToDo Umrechnung der Geographischer Koordinaten(latitude, longitude) ins Sexagesimalsystem
 
 
-//http://www.kowoma.de/gps/
-//http://www.openstreetmap.org/#map=11/39.6369/27.7281
-//http://www.movable-type.co.uk/scripts/latlong.html
-//http://www.purplemath.com/modules/radians.htm
-//https://www.daftlogic.com/projects-google-maps-area-calculator-tool.htm
-//http://www.gpskoordinaten.de/
-//https://developers.google.com/maps/
-//http://williams.best.vwh.net/avform.htm
-//https://github.com/mgavaghan/geodesy/tree/master/src/main/java/org/gavaghan/geodesy
-//https://github.com/softwarenerd/GreatCircle
-//https://github.com/mrJean1/PyGeodesy
-//http://earth-info.nga.mil/GandG/geotrans/
-//http://mathworld.wolfram.com/InverseGudermannian.html
+// http://www.kowoma.de/gps/
+// http://www.openstreetmap.org/#map=11/39.6369/27.7281
+// http://www.movable-type.co.uk/scripts/latlong.html
+// http://mathforum.org/library/drmath/view/51822.html
+// https://www.mathsisfun.com/algebra/distance-2-points.html
+// http://www.purplemath.com/modules/radians.htm
+// https://www.daftlogic.com/projects-google-maps-area-calculator-tool.htm
+// http://www.gpskoordinaten.de/
+// https://developers.google.com/maps/
+// http://williams.best.vwh.net/avform.htm
+// https://github.com/mgavaghan/geodesy/tree/master/src/main/java/org/gavaghan/geodesy
+// https://github.com/softwarenerd/GreatCircle
+// https://github.com/mrJean1/PyGeodesy
+// http://earth-info.nga.mil/GandG/geotrans/
+// http://mathworld.wolfram.com/InverseGudermannian.html
 
 
 
@@ -268,5 +270,5 @@ public class GeoCalculation {
 
 
 
-//"Der Wissenschaftler ist ein Mann, der lieber zaehlt als vermutet."
-//http://www.linux-related.de/index.html?/coding/o-notation.htm
+// "Der Wissenschaftler ist ein Mann, der lieber zaehlt als vermutet."
+// http://www.linux-related.de/index.html?/coding/o-notation.htm

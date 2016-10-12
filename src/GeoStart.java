@@ -12,6 +12,7 @@ public class GeoStart {
     public static void main(String args[])
     {
         start();
+        startRectangularArea();
     }
 
     public static void start()
@@ -73,22 +74,21 @@ public class GeoStart {
         System.out.println("\tGeoArea   :\t\t" + (GeoCalculation.getDistanceBetweenTwoPoints(pointB,pointC)
                                                  *GeoCalculation.getDistanceBetweenTwoPoints(pointD,pointE)) + " km²");
 
-
         System.out.println("\n***************************************************************************************");
         System.out.println("***************************************************************************************\n");
         /**System.out.println("\tIntersection Point: "
                             + GeoCalculation.intersectionPoint(pointB, GeoCalculation.getInitialBearing(a, pointD)+360,
                                 pointD, GeoCalculation.getInitialBearing(a,pointB)+360) + "\n");
         System.out.println("***************************************************************************************");
+         **/
 
-        WGS84Point point = new WGS84Point(49.9917,8.41321);
-        WGS84Point anotherPoint = new WGS84Point(49.9945,8.40294);
+        WGS84Point point = new WGS84Point(50.00489999999892, 8.421819999999306);
+        WGS84Point anotherPoint = new WGS84Point(49.994466465689015, 8.402943156609846);
+
         System.out.println("\tIntersection Point [TEST]: "
-                           + GeoCalculation.intersectionPoint(point, 90+22.744, anotherPoint, 90-22.744));
+                           + GeoCalculation.intersectionPoint(  point, 90+22.744404844419254,
+                                                                anotherPoint, 90-22.744404844419254));
         System.out.println("***************************************************************************************\n");
-        **/
-
-        startRectangularArea();
     }
 
     //public static void startRectangularArea(WGS84Point centerPoint, double angle, double aDistance, double bDistance)
