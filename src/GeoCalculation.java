@@ -176,52 +176,33 @@ public class GeoCalculation {
      */
     public static WGS84Point intersectionPoint(WGS84Point point, double angleA, WGS84Point anotherPoint, double angleB)
     {
-        //System.out.println("#-> point 'B' " + point);
+
         double azimuth13 = Math.toRadians(angleA);
-        //System.out.println("*** azimuth13 = " + azimuth13 + " ");
-        //System.out.println("*** angleA = " + angleA);// + " ==> " +(angleA + 360) + " \n");
-
         double latitudeA = Math.toRadians(point.getLatitudeDegree());
-        //System.out.println("*** latitudeA: " + latitudeA + "\t--> in degree " + point.getLatitudeDegree());
-
         double longitudeA = Math.toRadians(point.getLongitudeDegree());
-        //System.out.println("*** longitudeA: " + longitudeA + "\t--> in degree " + point.getLongitudeDegree());
-
-        //System.out.println("\n#-> point 'D' " + anotherPoint);
         double azimuth23 = Math.toRadians(angleB);
-        //System.out.println("*** azimuth23 = " + azimuth23 + " ");
-        //System.out.println("*** angleB = " + angleB);// + " ==> " +(angleB + 360) + " \n");
-
         double latitudeB = Math.toRadians(anotherPoint.getLatitudeDegree());
-        //System.out.println("*** latitudeB: " + latitudeB + "\t--> in degree " + anotherPoint.getLatitudeDegree());
-
         double longitudeB = Math.toRadians(anotherPoint.getLongitudeDegree());
-        //System.out.println("*** longitudeB: " + longitudeB + "\t--> in degree " + anotherPoint.getLongitudeDegree() + "\n");
 
         double deltaLatitude = (anotherPoint.getLatitudeDegree() - point.getLatitudeDegree());
-        //System.out.print("*** deltaLatitude: " + deltaLatitude);
         double deltaLongitude = (anotherPoint.getLongitudeDegree() - point.getLongitudeDegree());
-        //System.out.println("\t| deltaLongitude: " + deltaLongitude);
+
         double floatingPoint = 2 * Math.PI - Math.PI;
 
+        double distance12 = 2 * Math.asin(Math.sqrt(Math.sin(deltaLatitude/2) * Math.sin(deltaLatitude/2)
+                            + (Math.cos(latitudeA) * Math.cos(latitudeB)) * Math.sin(deltaLongitude/2)
+                            * Math.sin(deltaLongitude/2)));
 
-        double distance12 =         2 * Math.asin(Math.sqrt(Math.sin(deltaLatitude/2) * Math.sin(deltaLatitude/2)
-                                    + (Math.cos(latitudeA) * Math.cos(latitudeB)) * Math.sin(deltaLongitude/2)
-                                    * Math.sin(deltaLongitude/2)));
-        //System.out.print("*** distance12 = " + distance12 + " \n");
 
-        double azimuthA =           Math.acos ((Math.sin(latitudeB) - Math.sin(latitudeA) * Math.cos(distance12))
-                                    / (Math.sin(distance12) * Math.cos(latitudeA)));
-        //System.out.print("*** azimuthA = " + azimuthA);
+        double azimuthA = Math.acos ((Math.sin(latitudeB) - Math.sin(latitudeA) * Math.cos(distance12))
+                          / (Math.sin(distance12) * Math.cos(latitudeA)));
 
-        double azimuthB =           Math.acos ((Math.sin(latitudeA) - Math.sin(latitudeB) * Math.cos(distance12))
-                                    / (Math.sin(distance12) * Math.cos(latitudeB)));
-        //System.out.print("\t\t| azimuthB = " + azimuthB + " \n");
+        double azimuthB = Math.acos ((Math.sin(latitudeA) - Math.sin(latitudeB) * Math.cos(distance12))
+                          / (Math.sin(distance12) * Math.cos(latitudeB)));
 
         double azimuth12, azimuth21;
         if (Math.sin(longitudeB - longitudeA) > 0)
         {
-            //System.out.print("+++++++ if\n");
             azimuth12 = azimuthA;
             azimuth21 = 2 * Math.PI - azimuthB;
         }
@@ -232,61 +213,43 @@ public class GeoCalculation {
             azimuth21 = azimuthB;
         }
 
+        double alpha1 = (azimuth13 - azimuth12 + Math.PI) % floatingPoint;
 
-        double alpha1 =             (azimuth13 - azimuth12 + Math.PI) % floatingPoint;
-        //System.out.print("*** alpha1 = " + alpha1 + " \n");
+        double alpha2 = (azimuth21 - azimuth23 + Math.PI) % floatingPoint;
 
-        double alpha2 =             (azimuth21 - azimuth23 + Math.PI) % floatingPoint;
-        //System.out.print("*** alpha2 = " + alpha2 + " \n");
+        // alpha1 = Math.abs(alpha1);   System.out.print("*** alpha1.abs = " + alpha1 + " \n");
+        // alpha2 = Math.abs(alpha2);   System.out.print("*** alpha2.abs = " + alpha2 + " \n");
 
-        // alpha1 =                  Math.abs(alpha1);   System.out.print("*** alpha1.abs = " + alpha1 + " \n");
-        // alpha2 =                  Math.abs(alpha2);   System.out.print("*** alpha2.abs = " + alpha2 + " \n");
+        double alpha3 = Math.acos((-Math.cos(alpha1) * Math.cos(alpha2))
+                        + (Math.sin(alpha1) * Math.sin(alpha2) * Math.cos(distance12)));
 
-        double alpha3 =             Math.acos((-Math.cos(alpha1) * Math.cos(alpha2))
-                                    + (Math.sin(alpha1) * Math.sin(alpha2) * Math.cos(distance12)));
-        //System.out.print("*** alpha3 = " + alpha3 + " \n");
+        double distance13 = (Math.atan2(Math.sin(distance12) * Math.sin(alpha1) * Math.sin(alpha2),
+                            Math.cos(alpha2) + Math.cos(alpha1) * Math.cos(alpha3)));
 
-        double distance13 =         (Math.atan2(Math.sin(distance12) * Math.sin(alpha1) * Math.sin(alpha2),
-                                    Math.cos(alpha2) + Math.cos(alpha1) * Math.cos(alpha3)));
-        //System.out.print("*** distance13 = " + distance13 + " \n");
+        double latitude = (Math.asin(Math.sin(latitudeA) * Math.cos(distance13)
+                          + Math.cos(latitudeA) * Math.sin(distance13) * Math.cos(azimuthA)));
 
-        double latitude =           (Math.asin(Math.sin(latitudeA) * Math.cos(distance13)
-                                    + Math.cos(latitudeA) * Math.sin(distance13) * Math.cos(azimuthA)));
-        //System.out.println("*** latitude " + latitude);
+        double deltaLongitude13 = (Math.atan2(Math.sin(azimuthA) * Math.sin(distance13) * Math.cos(latitudeA),
+                                  Math.cos(distance13) - Math.sin(latitudeA) * Math.sin(latitude)));
 
-        double deltaLongitude13 =   (Math.atan2(Math.sin(azimuthA) * Math.sin(distance13) * Math.cos(latitudeA),
-                                    Math.cos(distance13) - Math.sin(latitudeA) * Math.sin(latitude)));
-        //System.out.print("*** deltaLongitude13 = " + deltaLongitude13 + "\n");
+        double longitude = (longitudeA + deltaLongitude13 + Math.PI) % floatingPoint;
 
-        double longitude =          (longitudeA + deltaLongitude13 + Math.PI) % floatingPoint;
-        //System.out.println("*** longitude " + longitude);
-
-        latitude =                  Math.toDegrees(latitude);
-        longitude =                 Math.toDegrees(longitude);
+        latitude = Math.toDegrees(latitude);
+        longitude = Math.toDegrees(longitude);
 
         return new WGS84Point(latitude, longitude);
     }
 }//ENDE
 
 
-
-
-
-
-
-
-
-
     //ToDo Schnittpunkt zweier Geraden um Rechteck aufzuspannen
     //ToDo Mittelpunkt einer Distanz zwischen zwei Punkten
-    //ToDo Objekterstellung mittels den vier Punkten und Mittelpunkt eines Objekts
+    //ToDo Objekterstellung mittels den vier Punkten und dem Mittelpunkt eines Objekts
     //ToDo Umrechnung der Geographischer Koordinaten(latitude, longitude) ins Sexagesimalsystem
 
 
-
-
-
-
+//http://www.kowoma.de/gps/
+//http://www.openstreetmap.org/#map=11/39.6369/27.7281
 //http://www.movable-type.co.uk/scripts/latlong.html
 //http://www.purplemath.com/modules/radians.htm
 //https://www.daftlogic.com/projects-google-maps-area-calculator-tool.htm
@@ -296,10 +259,12 @@ public class GeoCalculation {
 //https://github.com/mgavaghan/geodesy/tree/master/src/main/java/org/gavaghan/geodesy
 //https://github.com/softwarenerd/GreatCircle
 //https://github.com/mrJean1/PyGeodesy
-
-
 //http://earth-info.nga.mil/GandG/geotrans/
 //http://mathworld.wolfram.com/InverseGudermannian.html
+
+
+
+
 
 
 
