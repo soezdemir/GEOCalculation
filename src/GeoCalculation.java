@@ -1,11 +1,13 @@
-/** <br>Berechnung einer Distanz mit Geo Koordinaten</br>
+/** <b>Berechnung einer Distanz mit Geo Koordinaten</b>
  * @author soezdemir
  * @date 2016-09-27
- * @version 1.01
+ * @version 1.02
  */
-public class GeoCalculation {
-
+public class GeoCalculation{
     private static final String EX_COORD_NULL = "<-> Could not calculate distance. At least one point was NULL! <->";
+    private static final String POINT_COORD_NULL = "<-> Starting point can not be NULL! <->";
+    private static final String DIST_NOT_NULL = "<-> A given distance can not be NULL! <->";
+    private static final String ANG_NOT_NULL = "<-> A given angle can not be NULL! <->";
 
     public static final double EARTH_RAD = 6371.0008; //6378.137000km for WGS84 ???
 
@@ -23,22 +25,19 @@ public class GeoCalculation {
     }
 
 
-    public static double tenthMicroDegreeToDegree(long tenthMicroDegree)
-    {
+    public static double tenthMicroDegreeToDegree(long tenthMicroDegree){
         return (double) (tenthMicroDegree / TEN_MILLION);
     }
 
     /**
-     * <br>Method with haversine formula to calculate the</br>
-     * <br>great-circle distance between two WGS84Points</br>
+     * <b>Method with haversine formula to calculate the</b>
+     * <b>great-circle distance between two WGS84Points</b>
      * @param point
      * @param anotherPoint
      * @return distance between Points in km
      */
-    public static double getDistanceBetweenTwoPoints(WGS84Point point, WGS84Point anotherPoint)
-    {
-        if(null == point || null == anotherPoint)
-        {
+    public static double getDistanceBetweenTwoPoints(WGS84Point point, WGS84Point anotherPoint){
+        if(null == point || null == anotherPoint){
             throw new IllegalArgumentException(EX_COORD_NULL);
         }
         double largeArc;
@@ -55,23 +54,25 @@ public class GeoCalculation {
     }
 
     /**
-     * <br>Method for the half-way point along a great circle path between the two points</br>
-     * @param pointA
-     * @param pointB
+     * <b>Method for the half-way point along a great circle path between the two points</b>
+     * @param point
+     * @param anotherPoint
      * @return distance to the half-way point between pointA and pointB
      */
-    public static WGS84Point getMiddlePoint(WGS84Point pointA, WGS84Point pointB)
-    {
+    public static WGS84Point getMiddlePoint(WGS84Point point, WGS84Point anotherPoint){
+        if(null == point || null == anotherPoint){
+            throw new IllegalArgumentException(EX_COORD_NULL);
+        }
         double bX, bY;
-        double radLatitude1 = Math.toRadians(pointA.getLatitudeDegree());
-        double radLatitude2 = Math.toRadians(pointB.getLatitudeDegree());
-        double radLongitude1 = pointA.getLongitudeDegree();
-        double radLongitude2 = pointB.getLongitudeDegree();
+        double radLatitude1 = Math.toRadians(point.getLatitudeDegree());
+        double radLatitude2 = Math.toRadians(anotherPoint.getLatitudeDegree());
+        double radLongitude1 = Math.toRadians(point.getLongitudeDegree());
+        double radLongitude2 = Math.toRadians(anotherPoint.getLongitudeDegree());
 
-        double deltaLongitude = Math.toRadians(radLongitude2 - radLongitude1);
+        double deltaLongitude = radLongitude2 - radLongitude1;
 
-        bX = Math.cos(radLatitude2) * (Math.cos(deltaLongitude));
-        bY = Math.cos(radLatitude2) * (Math.sin(deltaLongitude));
+        bX = Math.cos(radLatitude2) * Math.cos(deltaLongitude);
+        bY = Math.cos(radLatitude2) * Math.sin(deltaLongitude);
 
         double latitude;
         latitude =      Math.atan2((Math.sin(radLatitude1)) + (Math.sin(radLatitude2)),
@@ -80,22 +81,21 @@ public class GeoCalculation {
         double longitude;
         longitude =     Math.toRadians(radLongitude1) + Math.atan2(bY, Math.cos(radLatitude1) + bX);
 
-        latitude =      Math.toDegrees(latitude);
-        longitude =     Math.toDegrees(longitude);
-
-        return new WGS84Point(latitude, longitude);
+        return new WGS84Point(Math.toDegrees(latitude), Math.toDegrees(longitude));
     }
 
     /**
-     * <br>Method for the initial bearing which if followed</br>
-     * <br>in a straight line along a great-circle arc from</br>
-     * <br>the start point to the end point</br>
+     * <b>Method for the initial bearing which if followed</b>
+     * <b>in a straight line along a great-circle arc from</b>
+     * <b>the start point to the end point</b>
      * @param point
      * @param anotherPoint
      * @return bearing between two points
      */
-    public static double getInitialBearing(WGS84Point point, WGS84Point anotherPoint)
-    {
+    public static double getInitialBearing(WGS84Point point, WGS84Point anotherPoint){
+        if(null == point || null == anotherPoint){
+            throw new IllegalArgumentException(EX_COORD_NULL);
+        }
         double radLat1 = Math.toRadians(point.getLatitudeDegree());
         double radLon1 = Math.toRadians(point.getLongitudeDegree());
         double radLat2 = Math.toRadians(anotherPoint.getLatitudeDegree());
@@ -109,20 +109,25 @@ public class GeoCalculation {
     }
 
     /**
-     * <br>Calculates the final bearing which is backward of initial bearing</br>
-     * @param pointA
-     * @param pointB
+     * <b>Calculates the final bearing which is backward of initial bearing</b>
+     * @param point
+     * @param anotherPoint
      * @return
      */
-    public static double getFinalBearing(WGS84Point pointA, WGS84Point pointB)
-    {
-        double bearing = GeoCalculation.getInitialBearing(pointA, pointB);
+    public static double getFinalBearing(WGS84Point point, WGS84Point anotherPoint){
+        if(null == point || null == anotherPoint){
+            throw new IllegalArgumentException(EX_COORD_NULL);
+        }
+        double bearing = GeoCalculation.getInitialBearing(point, anotherPoint);
         return bearing + 180 % 360;
     }
 
 
-    public static void getSexagesimal(WGS84Point point)
-    {
+    public static void getSexagesimal(WGS84Point point){
+        if(null == point){
+            throw new IllegalArgumentException(EX_COORD_NULL);
+        }
+
         double latitude = point.getLatitudeDegree();
         double longitude = point.getLongitudeDegree();
 
@@ -145,15 +150,24 @@ public class GeoCalculation {
     }
 
     /**
-     * <br>Method with a given start point, initial bearing, and distance,</br>
-     * <br>this will calculate a destination point</br>
+     * <b>Method with a given start point, initial bearing, and distance,</b>
+     * <b>this will calculate a destination point</b>
      * @param startPoint
      * @param distance
      * @param angle
      * @return
      */
-    public static WGS84Point searchPoint(WGS84Point startPoint, double distance, double angle)
-    {
+    public static WGS84Point searchPoint(WGS84Point startPoint, double distance, double angle){
+        if(null == startPoint){
+            throw new IllegalArgumentException(POINT_COORD_NULL);
+        }
+        if(distance == 0.0){
+            throw new IllegalArgumentException(DIST_NOT_NULL);
+        }
+        if(angle == 0.0){
+            throw new IllegalArgumentException(ANG_NOT_NULL);
+        }
+
         double bearing = Math.toRadians(angle);
         double latitude = Math.toRadians(startPoint.getLatitudeDegree());
         double longitude = Math.toRadians(startPoint.getLongitudeDegree());
@@ -168,15 +182,20 @@ public class GeoCalculation {
     }
 
     /**
-     * Returns the point of intersection of two paths defined by point and bearing
+     * <b>Returns the point of intersection of two paths defined by point and bearing</b>
      * @param point First Point e.g. (50.00489 / 8.42182)
      * @param angleA Bearing for path of the 1st Point e.g (292.745°)
      * @param anotherPoint Second Point e.g. (49.99446 / 8.40294)
      * @param angleB Bearing for path of the 2nd Point e.g (22.744°)
      * @return WGS84Point(latitude, longitude)
      */
-    public static WGS84Point intersectionPoint(WGS84Point point, double angleA, WGS84Point anotherPoint, double angleB)
-    {
+    public static WGS84Point intersectionPoint(WGS84Point point, double angleA, WGS84Point anotherPoint, double angleB){
+        if(null == point || null == anotherPoint){
+            throw new IllegalArgumentException(EX_COORD_NULL);
+        }
+        if(angleA == 0 || angleB == 0){
+            throw new IllegalArgumentException(ANG_NOT_NULL);
+        }
 
         double azimuth13 = Math.toRadians(angleA);
         double latitudeA = Math.toRadians(point.getLatitudeDegree());
@@ -185,8 +204,8 @@ public class GeoCalculation {
         double latitudeB = Math.toRadians(anotherPoint.getLatitudeDegree());
         double longitudeB = Math.toRadians(anotherPoint.getLongitudeDegree());
 
-        double deltaLatitude = (anotherPoint.getLatitudeDegree() - point.getLatitudeDegree());
-        double deltaLongitude = (anotherPoint.getLongitudeDegree() - point.getLongitudeDegree());
+        double deltaLatitude = Math.toRadians(anotherPoint.getLatitudeDegree() - point.getLatitudeDegree());
+        double deltaLongitude = Math.toRadians(anotherPoint.getLongitudeDegree() - point.getLongitudeDegree());
 
         double floatingPoint = 2 * Math.PI - Math.PI;
 
@@ -202,19 +221,16 @@ public class GeoCalculation {
                           / (Math.sin(distance12) * Math.cos(latitudeB)));
 
         double azimuth12, azimuth21;
-        if (Math.sin(longitudeB - longitudeA) > 0)
-        {
+        if (Math.sin(longitudeB - longitudeA) > 0) {
             azimuth12 = azimuthA;
             azimuth21 = 2 * Math.PI - azimuthB;
         }
-        else
-        {
+        else {
             azimuth12 = 2 * Math.PI - azimuthA;
             azimuth21 = azimuthB;
         }
 
         double alpha1 = (azimuth13 - azimuth12 + Math.PI) % floatingPoint;
-
         double alpha2 = (azimuth21 - azimuth23 + Math.PI) % floatingPoint;
 
         // alpha1 = Math.abs(alpha1);   System.out.print("*** alpha1.abs = " + alpha1 + " \n");
@@ -234,35 +250,37 @@ public class GeoCalculation {
 
         double longitude = (longitudeA + deltaLongitude13 + Math.PI) % floatingPoint;
 
-        latitude = Math.toDegrees(latitude);
-        longitude = Math.toDegrees(longitude);
-
-        return new WGS84Point(latitude, longitude);
+        return new WGS84Point(Math.toDegrees(latitude), Math.toDegrees(longitude));
     }
 }//ENDE
-
 
     //ToDo Schnittpunkt zweier Geraden um Rechteck aufzuspannen
     //ToDo Mittelpunkt einer Distanz zwischen zwei Punkten
     //ToDo Objekterstellung mittels den vier Punkten und dem Mittelpunkt eines Objekts
     //ToDo Umrechnung der Geographischer Koordinaten(latitude, longitude) ins Sexagesimalsystem
 
-
+// Wichtige Links für Praktikumsbericht
 // http://www.kowoma.de/gps/
 // http://www.openstreetmap.org/#map=11/39.6369/27.7281
+// https://www.daftlogic.com/projects-google-maps-area-calculator-tool.htm
+// http://www.gpskoordinaten.de/
+// http://earth-info.nga.mil/GandG/geotrans/
+// http://www.gctoolbox.de/ger/tools/Koordinaten_Umrechner/converter.htm
+// http://www.geotools.org/
+
 // http://www.movable-type.co.uk/scripts/latlong.html
 // http://mathforum.org/library/drmath/view/51822.html
 // https://www.mathsisfun.com/algebra/distance-2-points.html
 // http://www.purplemath.com/modules/radians.htm
-// https://www.daftlogic.com/projects-google-maps-area-calculator-tool.htm
-// http://www.gpskoordinaten.de/
-// https://developers.google.com/maps/
+// http://mathworld.wolfram.com/InverseGudermannian.html
 // http://williams.best.vwh.net/avform.htm
+
+// https://developers.google.com/maps/
 // https://github.com/mgavaghan/geodesy/tree/master/src/main/java/org/gavaghan/geodesy
 // https://github.com/softwarenerd/GreatCircle
 // https://github.com/mrJean1/PyGeodesy
-// http://earth-info.nga.mil/GandG/geotrans/
-// http://mathworld.wolfram.com/InverseGudermannian.html
+
+
 
 
 

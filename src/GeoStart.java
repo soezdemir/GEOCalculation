@@ -11,8 +11,9 @@ public class GeoStart {
 
     public static void main(String args[])
     {
-        start();
-        startRectangularArea();
+        //start();
+        //startRectangularArea();
+        startRectangularGeoArea();
     }
 
     public static void start()
@@ -96,10 +97,9 @@ public class GeoStart {
     {
         WGS84Point aPoint = new WGS84Point(49.991712, 8.413154); //Ruesselsheim - Bahnhofsplatz 2 --> CenterPoint
         //WGS84Point aPoint = new WGS84Point(49.245532, 6.937126); //Saarbrücken - Innovationscampus --> CenterPoint
-        double azimuth = 22.4;
+        double azimuth = 22.744;
         double aDistance = 1.5;
         double bDistance = 0.75;
-
 
         System.out.println(" -- Rectangular Geo Area --");
         System.out.println(" A-" + aPoint + " -- azimuth: " + azimuth + "° -- aDistance: " + aDistance + " km -- bDistance: " + bDistance + " km ");
@@ -136,40 +136,49 @@ public class GeoStart {
         System.out.println("\n***************************************************************************************");
         System.out.println("***************************************************************************************\n");
 
+
+    }
+
+    public static void startRectangularGeoArea()
+    {
+        WGS84Point aPoint = new WGS84Point(49.991712, 8.413154); //Ruesselsheim - Bahnhofsplatz 2 --> CenterPoint
+
+        double azimuth = 22.744;
+        double aDistance = 1.5;
+        double bDistance = 0.75;
+
         RectangularGeoArea rectangleObject = new RectangularGeoArea(aPoint, aDistance, bDistance, azimuth);
         System.out.println(rectangleObject + "\n");
         GeoCalculation.getSexagesimal(aPoint);
-        System.out.println("\nB-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth));
+        System.out.println("B-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth));
         System.out.println("C-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth-90));
         System.out.println("D-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth-180));
         System.out.println("E-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth-270));
 
-        System.out.print("\n#(1)#\t ");
+        System.out.print("#(1)#\t ");
         WGS84Point point1 = new WGS84Point(49.991712, 8.413154);                    //CenterPoint
         RectangularGeoArea.geoFunctionOfRectangularArea(point1);
         RectangularGeoArea.isPointInArea(rectangleObject, point1);
 
-        System.out.print("\n#(2)#\t ");
+        System.out.print("#(2)#\t ");
         WGS84Point point2 = new WGS84Point(49.24463322633939, 6.937174076579488);   //Border of Area
         RectangularGeoArea.geoFunctionOfRectangularArea(point2);
         RectangularGeoArea.isPointInArea(rectangleObject, point2);
 
-        System.out.print("\n#(3)#\t ");
+        System.out.print("#(3)#\t ");
         WGS84Point point3 = new WGS84Point(49.245551, 6.933751);                    //Outside of Area
         RectangularGeoArea.geoFunctionOfRectangularArea(point3);
         RectangularGeoArea.isPointInArea(rectangleObject, point3);
 
-        System.out.print("\n#(4)#\t ");
+        System.out.print("#(4)#\t ");
         WGS84Point point4 = new WGS84Point(49.244916, 6.942750);                    //Outside of Area
         RectangularGeoArea.geoFunctionOfRectangularArea(point4);
         RectangularGeoArea.isPointInArea(rectangleObject, point4);
 
-        System.out.print("\n#(5)#\t ");
+        System.out.print("#(5)#\t ");
         WGS84Point point5 = new WGS84Point(49.245547, 6.937814);                    //Inside of Area
         RectangularGeoArea.geoFunctionOfRectangularArea(point5);
         RectangularGeoArea.isPointInArea(rectangleObject, point5);
-
-
 
     }
 
