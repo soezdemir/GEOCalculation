@@ -5,12 +5,12 @@
 public class WGS84Point {
 
     /**
-     * <br>Factor zi calculate the tenth of a micro degree</br>
+     * <b>Factor zi calculate the tenth of a micro degree</b>
      */
     public static final double SAE_TO_DEGREE = 10000000.0;
 
     /**
-     * <br>Earth radius in meters</br>
+     * <b>Earth radius in meters</b>
      */
     public static final double EARTH_RAD = 6371000.8;
 
@@ -21,23 +21,18 @@ public class WGS84Point {
 
 
     /**
-     * <br>Constructor for WGS84Point</br>
+     * <b>Constructor for WGS84Point</b>
      * @param latitude
      * @param longitude
      */
-    public WGS84Point(double latitude, double longitude)
-    {
+    public WGS84Point(double latitude, double longitude){
         this.latitude = latitude;
         this.longitude = longitude;
         this.counter ++;
     }
 
-
-
-
     /**
-    public WGS84Point(long latitude, long longitude)
-    {
+    public WGS84Point(long latitude, long longitude){
        this(GeoCalculation.degreeToTenthMicroDegree(latitude),
        GeoCalculation.degreeToTenthMicroDegree(longitude));
     }
@@ -59,8 +54,7 @@ public class WGS84Point {
         return this.longitude;
     }
 
-    public String toString()
-    {
+    public String toString(){
         String result = "Point [" + WGS84Point.getPointID() +
                         "] => [LAT: " + this.latitude + " / LON: " + this.longitude + "]";
         return result;

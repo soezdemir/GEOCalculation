@@ -141,22 +141,23 @@ public class GeoStart {
 
     public static void startRectangularGeoArea()
     {
-        WGS84Point aPoint = new WGS84Point(49.991712, 8.413154); //Ruesselsheim - Bahnhofsplatz 2 --> CenterPoint
-
-        double azimuth = 22.744;
-        double aDistance = 1.5;
-        double bDistance = 0.75;
+        //WGS84Point aPoint = new WGS84Point(49.991712, 8.413154); //Ruesselsheim - Bahnhofsplatz 2 --> CenterPoint
+        WGS84Point aPoint = new WGS84Point(49.245532, 6.937126); //Saarbrücken - Innovationscampus --> CenterPoint
+        double azimuth = 88.00486102219236;
+        double aDistance = 0.1;
+        double bDistance = 0.05;
 
         RectangularGeoArea rectangleObject = new RectangularGeoArea(aPoint, aDistance, bDistance, azimuth);
         System.out.println(rectangleObject + "\n");
-        GeoCalculation.getSexagesimal(aPoint);
+        //GeoCalculation.getSexagesimal(aPoint);
+
         System.out.println("B-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth));
         System.out.println("C-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth-90));
         System.out.println("D-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth-180));
         System.out.println("E-" + GeoCalculation.searchPoint(aPoint, aDistance, azimuth-270));
 
         System.out.print("#(1)#\t ");
-        WGS84Point point1 = new WGS84Point(49.991712, 8.413154);                    //CenterPoint
+        WGS84Point point1 = new WGS84Point(49.245532, 6.937126);                    //CenterPoint
         RectangularGeoArea.geoFunctionOfRectangularArea(point1);
         RectangularGeoArea.isPointInArea(rectangleObject, point1);
 

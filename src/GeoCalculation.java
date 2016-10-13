@@ -268,6 +268,11 @@ public class GeoCalculation{
 // http://www.gctoolbox.de/ger/tools/Koordinaten_Umrechner/converter.htm
 // http://www.geotools.org/
 
+// https://de.wikipedia.org/wiki/Orthodrome
+// https://de.wikipedia.org/wiki/Loxodrome
+// https://de.wikipedia.org/wiki/Referenzellipsoid
+// https://de.wikipedia.org/wiki/Geoid
+
 // http://www.movable-type.co.uk/scripts/latlong.html
 // http://mathforum.org/library/drmath/view/51822.html
 // https://www.mathsisfun.com/algebra/distance-2-points.html
@@ -287,6 +292,7 @@ public class GeoCalculation{
 
 
 
-
+// "Was man lernen muss, um es zu tun, das lernt man, indem man es tut."
 // "Der Wissenschaftler ist ein Mann, der lieber zaehlt als vermutet."
 // http://www.linux-related.de/index.html?/coding/o-notation.htm
+// https://www.ubuntu.com/phone
