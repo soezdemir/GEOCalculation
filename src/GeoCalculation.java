@@ -284,13 +284,14 @@ public class GeoCalculation{
 // https://github.com/mgavaghan/geodesy/tree/master/src/main/java/org/gavaghan/geodesy
 // https://github.com/softwarenerd/GreatCircle
 // https://github.com/mrJean1/PyGeodesy
-
-
-
-
-
-
-
+// 
+//
+//
+//
+//
+//
+//
+//
 
 // "Was man lernen muss, um es zu tun, das lernt man, indem man es tut."
 // "Der Wissenschaftler ist ein Mann, der lieber zaehlt als vermutet."
